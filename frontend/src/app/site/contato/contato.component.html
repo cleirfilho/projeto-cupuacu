@@ -1,0 +1,105 @@
+<section id="contato" class="site-section bg-white">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-5">
+        <span class="section-kicker">Fale Conosco</span>
+        <h2 class="section-title mt-3">
+          Vamos conversar sobre o futuro da sua empresa
+        </h2>
+        <p class="section-copy">
+          Conte com nosso time para simplificar sua rotina contábil e apoiar
+          seus próximos passos.
+        </p>
+        <address class="contact-list mt-4 mb-0">
+          <div>
+            <i class="bi bi-geo-alt"></i
+            ><span
+              ><strong>Endereço</strong>Av. das Castanheiras, 1200, Belém -
+              PA</span
+            >
+          </div>
+          <div>
+            <i class="bi bi-telephone"></i
+            ><span><strong>Telefone</strong>(91) 3200-2026</span>
+          </div>
+          <div>
+            <i class="bi bi-whatsapp"></i
+            ><span><strong>WhatsApp</strong>(91) 99999-2026</span>
+          </div>
+          <div>
+            <i class="bi bi-envelope"></i
+            ><span><strong>E-mail</strong>contato&#64;kupuassu.com.br</span>
+          </div>
+        </address>
+      </div>
+      <div class="col-lg-7">
+        <form
+          class="card contact-card border-0 shadow-sm"
+          [formGroup]="form"
+          (ngSubmit)="submit()"
+          novalidate
+        >
+          <div class="card-body p-4 p-md-5">
+            @if (success) {
+              <div class="alert alert-success" role="status">
+                Mensagem enviada com sucesso. Em breve entraremos em contato.
+              </div>
+            }
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="nome" class="form-label">Nome</label
+                ><input
+                  id="nome"
+                  class="form-control"
+                  formControlName="nome"
+                  [class.is-invalid]="invalid('nome')"
+                />
+                <div class="invalid-feedback">Informe seu nome.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="email-contato" class="form-label">Email</label
+                ><input
+                  id="email-contato"
+                  type="email"
+                  class="form-control"
+                  formControlName="email"
+                  [class.is-invalid]="invalid('email')"
+                />
+                <div class="invalid-feedback">Informe um email válido.</div>
+              </div>
+              <div class="col-12">
+                <label for="telefone" class="form-label">Telefone</label
+                ><input
+                  id="telefone"
+                  type="tel"
+                  class="form-control"
+                  formControlName="telefone"
+                  [class.is-invalid]="invalid('telefone')"
+                />
+                <div class="invalid-feedback">Informe seu telefone.</div>
+              </div>
+              <div class="col-12">
+                <label for="mensagem" class="form-label">Mensagem</label
+                ><textarea
+                  id="mensagem"
+                  class="form-control"
+                  rows="5"
+                  formControlName="mensagem"
+                  [class.is-invalid]="invalid('mensagem')"
+                ></textarea>
+                <div class="invalid-feedback">
+                  Escreva uma mensagem com pelo menos 10 caracteres.
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  Enviar Mensagem
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

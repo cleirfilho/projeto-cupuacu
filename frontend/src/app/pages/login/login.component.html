@@ -1,0 +1,75 @@
+<main class="login-page">
+  <div class="login-shell container py-4">
+    <section class="login-brand d-none d-lg-flex" aria-label="Apresentação">
+      <div class="brand-mark" aria-hidden="true">PC</div>
+      <p class="text-uppercase fw-semibold small mb-3">Gestão contábil</p>
+      <h1 class="display-5 fw-bold mb-4">
+        Contabilidade com clareza e organização.
+      </h1>
+      <p class="lead mb-0">
+        Centralize usuários, clientes, empresas e pendências em uma experiência
+        simples e profissional.
+      </p>
+    </section>
+
+    <section class="card login-card border-0 shadow-lg">
+      <div class="card-body p-4 p-sm-5">
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <div class="brand-mark brand-mark-sm" aria-hidden="true">PC</div>
+          <div>
+            <h2 class="h3 fw-bold mb-1">Kupuassu</h2>
+            <p class="text-body-secondary mb-0">Sistema de gestão contábil</p>
+          </div>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="mb-3">
+            <label for="email" class="form-label fw-semibold">E-mail</label>
+            <input
+              id="email"
+              type="email"
+              class="form-control form-control-lg"
+              formControlName="email"
+              placeholder="nome@empresa.com.br"
+              autocomplete="email"
+              [class.is-invalid]="isInvalid('email')"
+            />
+            @if (isInvalid('email')) {
+              <div class="invalid-feedback">
+                @if (loginForm.controls.email.hasError('required')) {
+                  Informe seu e-mail.
+                } @else {
+                  Informe um e-mail válido.
+                }
+              </div>
+            }
+          </div>
+
+          <div class="mb-4">
+            <label for="senha" class="form-label fw-semibold">Senha</label>
+            <input
+              id="senha"
+              type="password"
+              class="form-control form-control-lg"
+              formControlName="senha"
+              placeholder="Digite sua senha"
+              autocomplete="current-password"
+              [class.is-invalid]="isInvalid('senha')"
+            />
+            @if (isInvalid('senha')) {
+              <div class="invalid-feedback">Informe sua senha.</div>
+            }
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg w-100">
+            Entrar
+          </button>
+        </form>
+
+        <p class="login-note text-body-secondary small text-center mb-0 mt-4">
+          Ambiente demonstrativo. Use qualquer e-mail e senha preenchidos.
+        </p>
+      </div>
+    </section>
+  </div>
+</main>

@@ -1,0 +1,29 @@
+<section id="servicos" class="site-section services-section">
+  <div class="container">
+    <div class="section-heading text-center mx-auto mb-5 fade-in">
+      <span class="section-kicker">Nossos Serviços</span>
+      <h2 class="section-title mt-3">
+        Soluções completas para cada fase do seu negócio
+      </h2>
+      <p class="section-copy">
+        Da abertura à expansão, cuidamos da complexidade contábil para você
+        focar no crescimento.
+      </p>
+    </div>
+    <div class="row g-4">
+      @for (service of services; track service.title) {
+        <div class="col-md-6 col-xl-4 slide-up">
+          <article class="card service-card h-100 border-0 shadow-sm">
+            <div class="card-body p-4 p-xl-5">
+              <div class="service-icon">
+                <i class="bi {{ service.icon }}"></i>
+              </div>
+              <h3 class="h5 fw-bold mt-4">{{ service.title }}</h3>
+              <p class="text-body-secondary mb-0">{{ service.description }}</p>
+            </div>
+          </article>
+        </div>
+      }
+    </div>
+  </div>
+</section>

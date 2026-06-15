@@ -1,0 +1,125 @@
+.hero-section {
+  min-height: calc(100vh - 5rem);
+  display: grid;
+  align-items: center;
+  background:
+    radial-gradient(
+      circle at 88% 10%,
+      rgba(var(--bs-secondary-rgb), 0.18),
+      transparent 25rem
+    ),
+    linear-gradient(135deg, var(--bs-light), #edf4ee);
+}
+
+.hero-trust span {
+  color: var(--bs-secondary-color);
+  font-size: 0.9rem;
+}
+
+.hero-trust strong {
+  display: block;
+  color: var(--bs-dark);
+  font-size: 1.1rem;
+}
+
+.hero-visual {
+  position: relative;
+  max-width: 34rem;
+  min-height: 31rem;
+  display: grid;
+  place-items: center;
+  margin-inline: auto;
+}
+
+.visual-glow {
+  position: absolute;
+  width: 80%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(var(--bs-primary-rgb), 0.14);
+  filter: blur(1rem);
+}
+
+.visual-panel {
+  position: relative;
+  width: min(100%, 29rem);
+  padding: 1.5rem;
+  border: 1px solid rgba(var(--bs-dark-rgb), 0.08);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 2rem 5rem rgba(var(--bs-dark-rgb), 0.14);
+}
+
+.visual-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+}
+
+.visual-chart {
+  height: 13rem;
+  display: flex;
+  align-items: end;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding: 1rem 0.5rem 0;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+
+.visual-chart span {
+  flex: 1;
+  min-width: 1rem;
+  border-radius: 0.55rem 0.55rem 0 0;
+  background: linear-gradient(
+    180deg,
+    var(--bs-primary),
+    rgba(var(--bs-primary-rgb), 0.55)
+  );
+}
+
+.mini-card {
+  padding: 1rem;
+  border-radius: 0.9rem;
+  background: var(--bs-tertiary-bg);
+}
+
+.mini-card small,
+.mini-card strong {
+  display: block;
+}
+
+.mini-card small {
+  color: var(--bs-secondary-color);
+}
+
+.mini-card strong {
+  margin-top: 0.25rem;
+  font-size: 1.25rem;
+}
+
+.floating-card {
+  position: absolute;
+  right: 0;
+  bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  color: var(--bs-white);
+  background: var(--bs-secondary);
+  box-shadow: 0 1rem 2rem rgba(var(--bs-secondary-rgb), 0.24);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+@media (max-width: 575.98px) {
+  .hero-visual {
+    min-height: 26rem;
+  }
+  .floating-card {
+    right: 0.5rem;
+    bottom: 0;
+  }
+}

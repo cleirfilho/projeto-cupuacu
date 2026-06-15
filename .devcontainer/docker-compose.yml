@@ -9,9 +9,10 @@ services:
     environment:
       NODE_ENV: development
       PORT: 3000
-      DATABASE_PATH: database.sqlite
+      DATABASE_PATH: backend/database.sqlite
     ports:
-      - "3000:3000"
+      - '3000:3000'
+      - '4200:4200'
     command: sleep infinity
 
 volumes:

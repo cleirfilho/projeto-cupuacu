@@ -1,0 +1,72 @@
+<div class="admin-shell">
+  <aside class="sidebar" [ngbCollapse]="menuCollapsed">
+    <div class="sidebar-brand">
+      <div class="brand-mark" aria-hidden="true">PC</div>
+      <div>
+        <strong>Kupuassu</strong>
+        <span>Gestão contábil</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Menu principal">
+      <a
+        routerLink="/admin/dashboard"
+        routerLinkActive="active"
+        class="nav-item"
+        (click)="closeMenu()"
+      >
+        <span class="nav-icon" aria-hidden="true">D</span>
+        Dashboard
+      </a>
+      <button type="button" class="nav-item nav-item-button">
+        <span class="nav-icon" aria-hidden="true">U</span>
+        Usuários
+      </button>
+      <button type="button" class="nav-item nav-item-button">
+        <span class="nav-icon" aria-hidden="true">C</span>
+        Clientes
+      </button>
+      <button type="button" class="nav-item nav-item-button">
+        <span class="nav-icon" aria-hidden="true">C</span>
+        Configurações
+      </button>
+    </nav>
+
+    <button type="button" class="logout-button" (click)="logout()">
+      <span aria-hidden="true">S</span>
+      Sair
+    </button>
+  </aside>
+
+  <div class="admin-content">
+    <header class="topbar navbar bg-white border-bottom px-3 px-lg-4">
+      <div class="d-flex align-items-center gap-3">
+        <button
+          type="button"
+          class="btn btn-outline-primary d-lg-none"
+          aria-label="Abrir menu"
+          [attr.aria-expanded]="!menuCollapsed"
+          (click)="toggleMenu()"
+        >
+          Menu
+        </button>
+        <div>
+          <p class="small text-body-secondary mb-0">Painel administrativo</p>
+          <h1 class="h5 mb-0">Dashboard</h1>
+        </div>
+      </div>
+
+      <div class="user-summary">
+        <div class="user-avatar" aria-hidden="true">A</div>
+        <div class="d-none d-sm-block">
+          <strong>Administrador</strong>
+          <span>Conta principal</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-area">
+      <router-outlet />
+    </main>
+  </div>
+</div>

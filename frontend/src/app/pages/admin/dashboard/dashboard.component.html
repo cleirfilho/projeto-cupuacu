@@ -1,0 +1,102 @@
+<section class="dashboard-header mb-4">
+  <div>
+    <p class="text-uppercase fw-semibold small text-primary mb-2">
+      Visão geral
+    </p>
+    <h2 class="h3 fw-bold mb-2">Bem-vindo, Administrador</h2>
+    <p class="text-body-secondary mb-0">
+      Acompanhe os principais indicadores da operação contábil.
+    </p>
+  </div>
+  <span class="badge rounded-pill text-bg-light border px-3 py-2">
+    Dados demonstrativos
+  </span>
+</section>
+
+<div class="row g-4">
+  @for (metric of metrics; track metric.label) {
+    <div class="col-12 col-sm-6 col-xl-3">
+      <article class="card metric-card h-100 border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between gap-3">
+            <div>
+              <p class="text-body-secondary fw-semibold mb-2">
+                {{ metric.label }}
+              </p>
+              <p class="display-6 fw-bold lh-1 mb-3">{{ metric.value }}</p>
+              <p class="small text-body-secondary mb-0">{{ metric.detail }}</p>
+            </div>
+            <div
+              class="metric-icon metric-icon-{{ metric.tone }}"
+              aria-hidden="true"
+            >
+              {{ metric.icon }}
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  }
+</div>
+
+<section class="card activity-card border-0 shadow-sm mt-4">
+  <div class="card-body p-4">
+    <div
+      class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4"
+    >
+      <div>
+        <h3 class="h5 fw-bold mb-1">Resumo operacional</h3>
+        <p class="text-body-secondary small mb-0">
+          Situação atual da carteira de clientes
+        </p>
+      </div>
+      <span
+        class="badge text-bg-success-subtle text-success-emphasis px-3 py-2"
+      >
+        Operação estável
+      </span>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <p class="small text-body-secondary mb-2">Obrigações entregues</p>
+        <div
+          class="progress"
+          role="progressbar"
+          aria-label="Obrigações entregues"
+          aria-valuenow="82"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div class="progress-bar" style="width: 82%">82%</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <p class="small text-body-secondary mb-2">Cadastros revisados</p>
+        <div
+          class="progress"
+          role="progressbar"
+          aria-label="Cadastros revisados"
+          aria-valuenow="68"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div class="progress-bar bg-secondary" style="width: 68%">68%</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <p class="small text-body-secondary mb-2">Pendências resolvidas</p>
+        <div
+          class="progress"
+          role="progressbar"
+          aria-label="Pendências resolvidas"
+          aria-valuenow="74"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div class="progress-bar bg-success" style="width: 74%">74%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,5 +1,5 @@
 {
-  "name": "Projeto Cupuacu NestJS",
+  "name": "Kupuassu Nx",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspaces/projeto-cupuacu",
@@ -28,7 +28,9 @@
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
         "mikestead.dotenv",
-        "alexcvzz.vscode-sqlite"
+        "alexcvzz.vscode-sqlite",
+        "nrwl.angular-console",
+        "angular.ng-template"
       ],
       "settings": {
         "editor.formatOnSave": true,
@@ -36,21 +38,20 @@
         "editor.codeActionsOnSave": {
           "source.fixAll.eslint": "explicit"
         },
-        "eslint.validate": [
-          "javascript",
-          "typescript"
-        ],
+        "eslint.validate": ["javascript", "typescript"],
         "typescript.updateImportsOnFileMove.enabled": "always"
       }
     }
   },
-  "forwardPorts": [
-    3000
-  ],
+  "forwardPorts": [3000, 4200],
   "portsAttributes": {
     "3000": {
-      "label": "Projeto Cupuacu API",
+      "label": "Kupuassu API",
       "onAutoForward": "notify"
+    },
+    "4200": {
+      "label": "Kupuassu Angular",
+      "onAutoForward": "openBrowser"
     }
   },
   "postCreateCommand": "sudo chown -R \"$(id -u):$(id -g)\" node_modules && npm ci && ([ -f .env ] || cp .env.example .env)",

@@ -1,0 +1,26 @@
+.services-section {
+  background: var(--app-bg);
+}
+.service-card {
+  border-radius: 1.25rem;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+.service-card:hover {
+  transform: translateY(-0.35rem);
+  box-shadow: 0 1.25rem 3rem rgba(var(--bs-dark-rgb), 0.1) !important;
+}
+.service-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  color: var(--bs-primary);
+  background: rgba(var(--bs-primary-rgb), 0.12);
+  font-size: 1.35rem;
+}
+.service-card p {
+  line-height: 1.7;
+}
