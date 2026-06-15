@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+.env
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+npm-debug.log*
+.devcontainer/.onCreateCommandMarker
+.devcontainer/.postCreateCommandMarker
+.devcontainer/.postStartCommandMarker
+.devcontainer/.updateContentCommandMarker

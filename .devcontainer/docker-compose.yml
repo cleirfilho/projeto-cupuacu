@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspaces/projeto-cupuacu:cached
+      - node-modules:/workspaces/projeto-cupuacu/node_modules
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_PATH: database.sqlite
+    ports:
+      - "3000:3000"
+    command: sleep infinity
+
+volumes:
+  node-modules:
