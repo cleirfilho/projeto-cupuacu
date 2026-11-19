@@ -40,18 +40,14 @@
           novalidate
         >
           <div class="card-body p-4 p-md-5">
-            @if (success) {
-              <div class="alert alert-success" role="status">
-                Mensagem enviada com sucesso. Em breve entraremos em contato.
-              </div>
-            }
-            <div class="row g-3">
+            <fieldset class="row g-3" [disabled]="sending()">
               <div class="col-md-6">
                 <label for="nome" class="form-label">Nome</label
                 ><input
                   id="nome"
                   class="form-control"
                   formControlName="nome"
+                  maxlength="120"
                   [class.is-invalid]="invalid('nome')"
                 />
                 <div class="invalid-feedback">Informe seu nome.</div>
@@ -63,6 +59,7 @@
                   type="email"
                   class="form-control"
                   formControlName="email"
+                  maxlength="254"
                   [class.is-invalid]="invalid('email')"
                 />
                 <div class="invalid-feedback">Informe um email válido.</div>
@@ -74,6 +71,7 @@
                   type="tel"
                   class="form-control"
                   formControlName="telefone"
+                  maxlength="40"
                   [class.is-invalid]="invalid('telefone')"
                 />
                 <div class="invalid-feedback">Informe seu telefone.</div>
@@ -85,6 +83,7 @@
                   class="form-control"
                   rows="5"
                   formControlName="mensagem"
+                  maxlength="5000"
                   [class.is-invalid]="invalid('mensagem')"
                 ></textarea>
                 <div class="invalid-feedback">
@@ -93,10 +92,10 @@
               </div>
               <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-lg">
-                  Enviar Mensagem
+                  {{ sending() ? 'Enviando…' : 'Enviar Mensagem' }}
                 </button>
               </div>
-            </div>
+            </fieldset>
           </div>
         </form>
       </div>

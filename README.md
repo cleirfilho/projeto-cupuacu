@@ -78,3 +78,12 @@ UID/GID alinhado ao usuário do WSL.
 ## Programação agêntica
 
 Consulte o [guia de programação agêntica](docs/programacao-agentica.md) para usar as instruções compartilhadas, as skills do projeto e a integração com o GitHub.
+
+### Envio do formulário de contato
+
+O formulário envia as mensagens pelo backend com Nodemailer. No `.env`, configure
+`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER` e `SMTP_PASS` com os dados da sua conta
+SMTP. Use um remetente autorizado pelo provedor em `CONTACT_FROM` e a caixa que
+deve receber as mensagens em `CONTACT_TO`. A resposta ao e-mail vai para o
+endereço informado no formulário. Use a porta 465 para TLS direto ou a 587 para
+STARTTLS. Reinicie o backend após editar o `.env`.
