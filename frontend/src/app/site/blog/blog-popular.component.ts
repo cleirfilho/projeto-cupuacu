@@ -8,7 +8,7 @@ import { BlogCard } from './blog.types';
   imports: [DatePipe, RouterLink],
   template: `
     @if (posts().length) {
-      <aside class="card border-0 shadow-sm p-4">
+      <aside class="card bg-body-tertiary shadow-sm p-4">
         <h2 class="h5 fw-bold mb-3">Mais acessados</h2>
         <ol class="list-unstyled mb-0">
           @for (post of posts(); track post.id) {

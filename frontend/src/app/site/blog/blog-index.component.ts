@@ -20,6 +20,11 @@ import { BlogSeoService } from './blog-seo.service';
   imports: [FormsModule, RouterLink, BlogCardComponent, BlogPopularComponent],
   providers: [BlogSeoService],
   templateUrl: './blog-index.component.html',
+  styles: `
+    :is(.form-control, .form-select) {
+      --bs-border-color: var(--bs-secondary-color);
+    }
+  `,
 })
 export class BlogIndexComponent {
   private readonly router = inject(Router);

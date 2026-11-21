@@ -69,6 +69,15 @@
   --bs-link-hover-color-rgb: 198, 234, 208;
 }
 
+app-admin-blog-layout :is(.form-control, .form-select, .form-check-input),
+app-login .form-control {
+  --bs-border-color: var(--bs-secondary-color);
+}
+
+app-admin-blog-layout .table {
+  --bs-table-bg: var(--bs-tertiary-bg);
+}
+
 .brand-surface {
   background: var(--brand-dark);
 }

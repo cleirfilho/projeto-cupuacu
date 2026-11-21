@@ -8,7 +8,7 @@ import { NgbNav, NgbNavItem, NgbNavLinkBase } from '@ng-bootstrap/ng-bootstrap';
   template: `
     <section class="pb-4">
       <header
-        class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4"
+        class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 p-3 p-md-4 bg-primary-subtle border border-primary-subtle rounded-4"
       >
         <div>
           <p class="section-kicker mb-1">Gestão de conteúdo</p>

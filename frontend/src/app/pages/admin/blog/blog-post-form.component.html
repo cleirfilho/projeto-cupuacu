@@ -1,6 +1,6 @@
 @if (ready()) {
   <form #postForm="ngForm" class="d-grid gap-4" (ngSubmit)="save()">
-    <section class="card border-0 shadow-sm p-3 p-md-4">
+    <section class="card bg-body-tertiary shadow-sm p-3 p-md-4">
       <div
         class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3"
       >
@@ -210,7 +210,7 @@
       </div>
     </section>
 
-    <section class="card border-0 shadow-sm p-3 p-md-4">
+    <section class="card bg-body-tertiary shadow-sm p-3 p-md-4">
       <h3 class="h5 mb-3">Publicação</h3>
       <div class="row g-3">
         <div class="col-md-6">
@@ -270,7 +270,7 @@
       </div>
     </section>
 
-    <section class="card border-0 shadow-sm p-3 p-md-4">
+    <section class="card bg-body-tertiary shadow-sm p-3 p-md-4">
       <h3 class="h5 mb-3">SEO e compartilhamento</h3>
       <div class="row g-3">
         <div class="col-12">
@@ -387,7 +387,7 @@
   </form>
   @if (preview() !== null) {
     <section
-      class="card border-0 shadow-sm p-3 p-md-4 mt-4"
+      class="card bg-body-tertiary shadow-sm p-3 p-md-4 mt-4"
       id="blog-preview"
       tabindex="-1"
       aria-labelledby="portal-preview-heading"

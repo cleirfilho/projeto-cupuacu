@@ -12,6 +12,7 @@
 - Organize por funcionalidade nas areas existentes de `frontend/src/app`. Mantenha componentes standalone e coloque template, estilos e spec perto do componente. Preserve as convencoes de nomes dos arquivos vizinhos.
 - Mantenha componentes focados na apresentacao e interacao. Centralize acesso HTTP e estado compartilhado nos servicos da funcionalidade ou de `core/`. Use signals para estado local reativo quando fizer sentido e RxJS para fluxos assincronos existentes.
 - Preserve a hidratacao e os modos de renderizacao configurados por rota. Isole o uso de APIs como `window` e `localStorage` em caminhos exclusivos do navegador e proteja o acesso conforme o contexto de execucao.
+- Use sempre o Bootstrap como base da interface. Priorize seus componentes, classes utilitarias e variaveis de tema. Crie classes e estilos personalizados apenas quando forem necessarios para preservar a identidade visual ou atender a um comportamento que o Bootstrap nao oferece.
 - Preserve Bootstrap, os estilos do projeto e os fluxos existentes de autenticacao ao evoluir interfaces. Use HTML semantico e controles acessiveis por teclado.
 
 ## Backend NestJS
