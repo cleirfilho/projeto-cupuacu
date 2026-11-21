@@ -1,6 +1,6 @@
-<section id="contato" class="site-section bg-white">
+<section id="contato" class="site-section bg-body">
   <div class="container">
-    <div class="row g-5">
+    <div class="row gy-5 gx-4 gx-lg-5">
       <div class="col-lg-5">
         <span class="section-kicker">Fale Conosco</span>
         <h2 class="section-title mt-3">
@@ -10,36 +10,51 @@
           Conte com nosso time para simplificar sua rotina contábil e apoiar
           seus próximos passos.
         </p>
-        <address class="contact-list mt-4 mb-0">
-          <div>
-            <i class="bi bi-geo-alt"></i
+        <address class="d-grid gap-3 mt-4 mb-0 text-break">
+          <div class="d-flex gap-3 align-items-start">
+            <i
+              class="feature-icon d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-3 bg-primary-subtle text-primary-emphasis bi bi-geo-alt"
+            ></i
             ><span
-              ><strong>Endereço</strong>Av. das Castanheiras, 1200, Belém -
-              PA</span
+              ><strong class="d-block text-body-emphasis">Endereço</strong>Av.
+              das Castanheiras, 1200, Belém - PA</span
             >
           </div>
-          <div>
-            <i class="bi bi-telephone"></i
-            ><span><strong>Telefone</strong>(91) 3200-2026</span>
+          <div class="d-flex gap-3 align-items-start">
+            <i
+              class="feature-icon d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-3 bg-primary-subtle text-primary-emphasis bi bi-telephone"
+            ></i
+            ><span
+              ><strong class="d-block text-body-emphasis">Telefone</strong>(91)
+              3200-2026</span
+            >
           </div>
-          <div>
-            <i class="bi bi-whatsapp" aria-hidden="true"></i>
+          <div class="d-flex gap-3 align-items-start">
+            <i
+              class="feature-icon d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-3 bg-primary-subtle text-primary-emphasis bi bi-whatsapp"
+              aria-hidden="true"
+            ></i>
             <span>
-              <strong>WhatsApp</strong>
+              <strong class="d-block text-body-emphasis">WhatsApp</strong>
               <a [href]="whatsappUrl" target="_blank" rel="noopener noreferrer">
                 {{ whatsappNumber }}
               </a>
             </span>
           </div>
-          <div>
-            <i class="bi bi-envelope"></i
-            ><span><strong>E-mail</strong>contato&#64;kupuassu.com.br</span>
+          <div class="d-flex gap-3 align-items-start">
+            <i
+              class="feature-icon d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-3 bg-primary-subtle text-primary-emphasis bi bi-envelope"
+            ></i
+            ><span
+              ><strong class="d-block text-body-emphasis">E-mail</strong
+              >contato&#64;kupuassu.com.br</span
+            >
           </div>
         </address>
       </div>
       <div class="col-lg-7">
         <form
-          class="card contact-card border-0 shadow-sm"
+          class="card bg-body-tertiary rounded-4 border-0 shadow-sm"
           [formGroup]="form"
           (ngSubmit)="submit()"
           novalidate
@@ -47,18 +62,25 @@
           <div class="card-body p-4 p-md-5">
             <fieldset class="row g-3" [disabled]="sending()">
               <div class="col-md-6">
-                <label for="nome" class="form-label">Nome</label
+                <label for="nome" class="form-label fw-semibold">Nome</label
                 ><input
                   id="nome"
                   class="form-control"
                   formControlName="nome"
                   maxlength="120"
                   [class.is-invalid]="invalid('nome')"
+                  [attr.aria-invalid]="invalid('nome')"
+                  [attr.aria-describedby]="
+                    invalid('nome') ? 'contato-nome-error' : null
+                  "
                 />
-                <div class="invalid-feedback">Informe seu nome.</div>
+                <div class="invalid-feedback" id="contato-nome-error">
+                  Informe seu nome.
+                </div>
               </div>
               <div class="col-md-6">
-                <label for="email-contato" class="form-label">Email</label
+                <label for="email-contato" class="form-label fw-semibold"
+                  >Email</label
                 ><input
                   id="email-contato"
                   type="email"
@@ -66,11 +88,18 @@
                   formControlName="email"
                   maxlength="254"
                   [class.is-invalid]="invalid('email')"
+                  [attr.aria-invalid]="invalid('email')"
+                  [attr.aria-describedby]="
+                    invalid('email') ? 'contato-email-error' : null
+                  "
                 />
-                <div class="invalid-feedback">Informe um email válido.</div>
+                <div class="invalid-feedback" id="contato-email-error">
+                  Informe um email válido.
+                </div>
               </div>
               <div class="col-12">
-                <label for="telefone" class="form-label">Telefone</label
+                <label for="telefone" class="form-label fw-semibold"
+                  >Telefone</label
                 ><input
                   id="telefone"
                   type="tel"
@@ -78,11 +107,18 @@
                   formControlName="telefone"
                   maxlength="40"
                   [class.is-invalid]="invalid('telefone')"
+                  [attr.aria-invalid]="invalid('telefone')"
+                  [attr.aria-describedby]="
+                    invalid('telefone') ? 'contato-telefone-error' : null
+                  "
                 />
-                <div class="invalid-feedback">Informe seu telefone.</div>
+                <div class="invalid-feedback" id="contato-telefone-error">
+                  Informe seu telefone.
+                </div>
               </div>
               <div class="col-12">
-                <label for="mensagem" class="form-label">Mensagem</label
+                <label for="mensagem" class="form-label fw-semibold"
+                  >Mensagem</label
                 ><textarea
                   id="mensagem"
                   class="form-control"
@@ -90,8 +126,12 @@
                   formControlName="mensagem"
                   maxlength="5000"
                   [class.is-invalid]="invalid('mensagem')"
+                  [attr.aria-invalid]="invalid('mensagem')"
+                  [attr.aria-describedby]="
+                    invalid('mensagem') ? 'contato-mensagem-error' : null
+                  "
                 ></textarea>
-                <div class="invalid-feedback">
+                <div class="invalid-feedback" id="contato-mensagem-error">
                   Escreva uma mensagem com pelo menos 10 caracteres.
                 </div>
               </div>

@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../core/auth/auth.service';
+import { ThemePickerComponent } from '../../core/theme/theme-picker.component';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ThemePickerComponent, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

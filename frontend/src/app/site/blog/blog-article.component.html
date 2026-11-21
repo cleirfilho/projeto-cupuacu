@@ -20,7 +20,7 @@
   } @else {
     <div class="container py-4 py-md-5">
       <article
-        class="article-body mx-auto bg-white rounded-4 p-3 p-md-5 shadow-sm"
+        class="article-body mx-auto bg-body-tertiary rounded-4 p-3 p-md-5 shadow-sm"
       >
         <nav aria-label="Localização" class="small">
           <ol class="breadcrumb">
@@ -52,7 +52,7 @@
         </header>
         @if (data.article.featuredImage) {
           <img
-            class="article-cover rounded-3 my-3"
+            class="article-cover d-block w-100 object-fit-cover rounded-3 my-3"
             [src]="data.article.featuredImage"
             [alt]="data.article.featuredImageAlt"
             decoding="async"
@@ -69,7 +69,7 @@
             @for (tag of data.article.tags; track tag.id) {
               <li>
                 <a
-                  class="badge text-bg-light border"
+                  class="badge bg-body-secondary text-body border"
                   routerLink="/blog"
                   [queryParams]="{ tag: tag.slug }"
                   >{{ tag.name }}</a

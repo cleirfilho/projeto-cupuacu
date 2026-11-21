@@ -6,15 +6,17 @@
   [class.shadow-sm]="!home()"
   [class.home-card]="home()"
   [class.featured-card]="featured()"
+  [class.flex-md-row]="featured()"
 >
   @if (post().featuredImage) {
     <a
-      class="cover"
+      class="cover d-block bg-body-secondary overflow-hidden"
       [routerLink]="['/blog', post().slug]"
       tabindex="-1"
       aria-hidden="true"
     >
       <img
+        class="w-100 h-100 object-fit-cover"
         [src]="post().featuredImage + (featured() ? '' : '?variant=thumb')"
         [alt]="post().featuredImageAlt"
         [attr.loading]="featured() ? 'eager' : 'lazy'"
@@ -22,7 +24,7 @@
       />
     </a>
   }
-  <div class="card-body" [class.p-4]="!home()">
+  <div class="card-body" [class.p-4]="!home()" [class.p-0]="home()">
     <p class="small text-body-secondary mb-2">
       <span class="section-kicker">{{ post().category.name }}</span>
       @if (post().publishedAt; as date) {
@@ -37,7 +39,7 @@
     </p>
     <h3 class="h5 fw-bold mb-2">
       <a
-        class="text-dark text-decoration-none"
+        class="link-body-emphasis link-underline-opacity-0 link-underline-opacity-100-hover"
         [routerLink]="['/blog', post().slug]"
         >{{ post().title }}</a
       >

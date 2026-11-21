@@ -1,6 +1,8 @@
-<section class="dashboard-header mb-4">
+<section
+  class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4"
+>
   <div>
-    <p class="text-uppercase fw-semibold small text-primary mb-2">
+    <p class="text-uppercase fw-semibold small text-primary-emphasis mb-2">
       Visão geral
     </p>
     <h2 class="h3 fw-bold mb-2">Bem-vindo, Administrador</h2>
@@ -8,15 +10,15 @@
       Acompanhe os principais indicadores da operação contábil.
     </p>
   </div>
-  <span class="badge rounded-pill text-bg-light border px-3 py-2">
+  <span class="badge rounded-pill bg-body-secondary text-body border px-3 py-2">
     Dados demonstrativos
   </span>
 </section>
 
 <div class="row g-4">
   @for (metric of metrics; track metric.label) {
-    <div class="col-12 col-sm-6 col-xl-3">
-      <article class="card metric-card h-100 border-0 shadow-sm">
+    <div class="col-12 col-sm-6 col-xxl-3">
+      <article class="card rounded-4 h-100 border-0 bg-body-tertiary shadow-sm">
         <div class="card-body p-4">
           <div class="d-flex align-items-start justify-content-between gap-3">
             <div>
@@ -27,7 +29,9 @@
               <p class="small text-body-secondary mb-0">{{ metric.detail }}</p>
             </div>
             <div
-              class="metric-icon metric-icon-{{ metric.tone }}"
+              class="metric-icon d-inline-flex align-items-center justify-content-center rounded-3 flex-shrink-0 fw-bold bg-{{
+                metric.tone
+              }}-subtle text-{{ metric.tone }}-emphasis"
               aria-hidden="true"
             >
               {{ metric.icon }}
@@ -39,7 +43,7 @@
   }
 </div>
 
-<section class="card activity-card border-0 shadow-sm mt-4">
+<section class="card rounded-4 border-0 bg-body-tertiary shadow-sm mt-4">
   <div class="card-body p-4">
     <div
       class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4"
@@ -50,9 +54,7 @@
           Situação atual da carteira de clientes
         </p>
       </div>
-      <span
-        class="badge text-bg-success-subtle text-success-emphasis px-3 py-2"
-      >
+      <span class="badge bg-success-subtle text-success-emphasis px-3 py-2">
         Operação estável
       </span>
     </div>
@@ -61,7 +63,7 @@
       <div class="col-md-4">
         <p class="small text-body-secondary mb-2">Obrigações entregues</p>
         <div
-          class="progress"
+          class="progress rounded-pill"
           role="progressbar"
           aria-label="Obrigações entregues"
           aria-valuenow="82"
@@ -74,7 +76,7 @@
       <div class="col-md-4">
         <p class="small text-body-secondary mb-2">Cadastros revisados</p>
         <div
-          class="progress"
+          class="progress rounded-pill"
           role="progressbar"
           aria-label="Cadastros revisados"
           aria-valuenow="68"
@@ -87,7 +89,7 @@
       <div class="col-md-4">
         <p class="small text-body-secondary mb-2">Pendências resolvidas</p>
         <div
-          class="progress"
+          class="progress rounded-pill"
           role="progressbar"
           aria-label="Pendências resolvidas"
           aria-valuenow="74"

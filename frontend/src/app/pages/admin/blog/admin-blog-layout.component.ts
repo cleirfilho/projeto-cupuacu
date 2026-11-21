@@ -32,12 +32,8 @@ import { NgbNav, NgbNavItem, NgbNavLinkBase } from '@ng-bootstrap/ng-bootstrap';
             <li [ngbNavItem]="item.path">
               <a
                 ngbNavLink
-                class="border fw-semibold focus-ring focus-ring-primary"
-                [class]="
-                  activePath() === item.path
-                    ? 'bg-primary text-white border-primary'
-                    : 'bg-white text-primary border-primary border-opacity-25'
-                "
+                class="border fw-semibold"
+                [class.text-primary-emphasis]="activePath() !== item.path"
                 [routerLink]="item.path"
                 [attr.aria-current]="activePath() === item.path ? 'page' : null"
                 >{{ item.label }}</a

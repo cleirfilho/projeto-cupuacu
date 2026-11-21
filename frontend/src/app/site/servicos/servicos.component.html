@@ -1,4 +1,4 @@
-<section id="servicos" class="site-section services-section">
+<section id="servicos" class="site-section bg-body">
   <div class="container">
     <div class="section-heading text-center mx-auto mb-5 fade-in">
       <span class="section-kicker">Nossos Serviços</span>
@@ -13,9 +13,13 @@
     <div class="row g-4">
       @for (service of services; track service.title) {
         <div class="col-md-6 col-xl-4 slide-up">
-          <article class="card service-card h-100 border-0 shadow-sm">
+          <article
+            class="card service-card bg-body-tertiary rounded-4 h-100 border-0 shadow-sm"
+          >
             <div class="card-body p-4 p-xl-5">
-              <div class="service-icon">
+              <div
+                class="service-icon d-grid rounded-4 bg-primary-subtle text-primary-emphasis fs-4"
+              >
                 <i class="bi {{ service.icon }}"></i>
               </div>
               <h3 class="h5 fw-bold mt-4">{{ service.title }}</h3>

@@ -8,7 +8,7 @@
       <a class="btn btn-outline-primary" href="/blog">Recarregar</a>
     </section>
   } @else {
-    <header class="bg-white py-5 border-bottom">
+    <header class="bg-body-tertiary py-5 border-bottom">
       <div class="container section-copy">
         <nav aria-label="Localização">
           <ol class="breadcrumb">
@@ -88,31 +88,37 @@
             }
           </div>
           @if (data.posts.total > data.posts.pageSize || data.posts.page > 1) {
-            <nav
-              class="d-flex flex-wrap align-items-center gap-3 mt-4"
-              aria-label="Paginação de publicações"
-            >
-              @if (data.posts.page > 1) {
-                <a
-                  class="btn btn-outline-primary"
-                  routerLink="/blog"
-                  queryParamsHandling="merge"
-                  [queryParams]="{
-                    page: data.posts.page === 2 ? null : data.posts.page - 1,
-                  }"
-                  >Anterior</a
-                >
-              }
-              <span>Página {{ data.posts.page }}</span>
-              @if (data.posts.page * data.posts.pageSize < data.posts.total) {
-                <a
-                  class="btn btn-outline-primary"
-                  routerLink="/blog"
-                  queryParamsHandling="merge"
-                  [queryParams]="{ page: data.posts.page + 1 }"
-                  >Próxima</a
-                >
-              }
+            <nav class="mt-4" aria-label="Paginação de publicações">
+              <ul class="pagination pagination-sm flex-wrap mb-0">
+                @if (data.posts.page > 1) {
+                  <li class="page-item">
+                    <a
+                      class="page-link"
+                      routerLink="/blog"
+                      queryParamsHandling="merge"
+                      [queryParams]="{
+                        page:
+                          data.posts.page === 2 ? null : data.posts.page - 1,
+                      }"
+                      >Anterior</a
+                    >
+                  </li>
+                }
+                <li class="page-item active" aria-current="page">
+                  <span class="page-link">Página {{ data.posts.page }}</span>
+                </li>
+                @if (data.posts.page * data.posts.pageSize < data.posts.total) {
+                  <li class="page-item">
+                    <a
+                      class="page-link"
+                      routerLink="/blog"
+                      queryParamsHandling="merge"
+                      [queryParams]="{ page: data.posts.page + 1 }"
+                      >Próxima</a
+                    >
+                  </li>
+                }
+              </ul>
             </nav>
           }
         </div>

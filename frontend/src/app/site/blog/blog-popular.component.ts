@@ -14,7 +14,7 @@ import { BlogCard } from './blog.types';
           @for (post of posts(); track post.id) {
             <li class="border-top py-3">
               <a
-                class="d-flex align-items-center gap-3 text-decoration-none text-dark"
+                class="d-flex align-items-center gap-3 text-decoration-none text-body-emphasis"
                 [routerLink]="['/blog', post.slug]"
               >
                 @if (post.featuredImage) {

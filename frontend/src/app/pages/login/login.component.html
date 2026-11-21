@@ -1,27 +1,40 @@
-<main class="login-page">
+<main class="login-page d-grid min-vh-100">
   <div class="login-shell container py-4">
-    <section class="login-brand d-none d-lg-flex" aria-label="Apresentação">
-      <div class="brand-mark" aria-hidden="true">K</div>
+    <section
+      class="d-none d-lg-flex flex-column justify-content-center text-body-emphasis"
+      aria-label="Apresentação"
+    >
+      <div
+        class="brand-mark d-grid mb-4 rounded-4 text-white fw-bold shadow-sm"
+        aria-hidden="true"
+      >
+        K
+      </div>
       <p class="text-uppercase fw-semibold small mb-3">Gestão contábil</p>
       <h1 class="display-5 fw-bold mb-4">
         Contabilidade com clareza e organização.
       </h1>
-      <p class="lead mb-0">
+      <p class="lead text-body-secondary mb-0">
         Centralize usuários, clientes, empresas e pendências em uma experiência
         simples e profissional.
       </p>
     </section>
 
-    <section class="card login-card border-0 shadow-lg">
+    <section class="card rounded-4 border-0 shadow-lg">
       <div class="card-body p-4 p-sm-5">
-        <div class="d-flex align-items-center gap-3 mb-4">
-          <div class="brand-mark brand-mark-sm" aria-hidden="true">K</div>
+        <div class="d-flex align-items-start flex-wrap gap-3 mb-4">
+          <div
+            class="brand-mark brand-mark-sm d-grid flex-shrink-0 rounded-4 text-white fw-bold"
+            aria-hidden="true"
+          >
+            K
+          </div>
           <div>
             <h2 class="h3 fw-bold mb-1">Kupuassu</h2>
             <p class="text-body-secondary mb-0">Sistema de gestão contábil</p>
           </div>
+          <app-theme-picker class="ms-auto" />
         </div>
-
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
           <div class="mb-3">
@@ -34,9 +47,13 @@
               placeholder="nome@empresa.com.br"
               autocomplete="email"
               [class.is-invalid]="isInvalid('email')"
+              [attr.aria-invalid]="isInvalid('email')"
+              [attr.aria-describedby]="
+                isInvalid('email') ? 'login-email-error' : null
+              "
             />
             @if (isInvalid('email')) {
-              <div class="invalid-feedback">
+              <div class="invalid-feedback" id="login-email-error">
                 @if (loginForm.controls.email.hasError('required')) {
                   Informe seu e-mail.
                 } @else {
@@ -56,9 +73,13 @@
               placeholder="Digite sua senha"
               autocomplete="current-password"
               [class.is-invalid]="isInvalid('senha')"
+              [attr.aria-invalid]="isInvalid('senha')"
+              [attr.aria-describedby]="
+                isInvalid('senha') ? 'login-senha-error' : null
+              "
             />
             @if (isInvalid('senha')) {
-              <div class="invalid-feedback">
+              <div class="invalid-feedback" id="login-senha-error">
                 @if (loginForm.controls.senha.hasError('required')) {
                   Informe sua senha.
                 } @else {
@@ -86,7 +107,7 @@
         </form>
 
         <p class="login-note text-body-secondary small text-center mb-0 mt-4">
-          Acesso inicial: admin@cupuacu.local / Admin@123
+          Acesso inicial: admin&#64;cupuacu.local / Admin&#64;123
         </p>
       </div>
     </section>

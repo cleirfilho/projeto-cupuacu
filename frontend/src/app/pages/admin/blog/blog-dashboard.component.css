@@ -3,5 +3,5 @@
   align-items: end;
 }
 .bar {
-  background: var(--bs-primary);
+  background: var(--bs-link-color);
 }

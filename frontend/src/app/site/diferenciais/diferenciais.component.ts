@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-diferenciais',
   templateUrl: './diferenciais.component.html',
-  styleUrl: './diferenciais.component.css',
 })
 export class DiferenciaisComponent {
   protected readonly items = [

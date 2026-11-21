@@ -16,7 +16,10 @@ import { BlogCard } from './blog.types';
   imports: [BlogCardComponent, RouterLink],
   template: `
     @if (posts().length) {
-      <section class="site-section bg-white" aria-labelledby="home-blog-title">
+      <section
+        class="site-section bg-body-tertiary"
+        aria-labelledby="home-blog-title"
+      >
         <div class="container">
           <div class="section-heading mb-4">
             <span class="section-kicker">Blog</span>

@@ -1,57 +1,79 @@
-<header class="site-header sticky-top">
-  <nav
-    class="navbar navbar-expand-lg navbar-light"
-    aria-label="Navegação principal"
-  >
-    <div class="container">
+<header class="bg-body border-bottom">
+  <nav class="navbar navbar-expand-xl" aria-label="Navegação principal">
+    <div class="container gap-1 gap-sm-2">
       <a
-        class="navbar-brand d-flex align-items-center gap-2"
+        class="navbar-brand me-auto d-flex align-items-center gap-2"
         href="/#inicio"
         (click)="closeMenu()"
       >
         <img src="favicon.svg" width="44" height="44" alt="" />
         <span>
-          <strong>Kupuassu</strong>
-          <small>Contabilidade inteligente</small>
+          <strong class="d-block fs-6">Kupuassu</strong>
+          <small class="d-block text-body-secondary"
+            >Contabilidade inteligente</small
+          >
         </span>
       </a>
 
+      <app-theme-picker class="order-xl-last" />
+
       <button
-        class="navbar-toggler"
+        class="navbar-toggler px-2"
         type="button"
         aria-label="Alternar menu"
+        aria-controls="site-menu"
         [attr.aria-expanded]="!menuCollapsed"
         (click)="menuCollapsed = !menuCollapsed"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" [ngbCollapse]="menuCollapsed">
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+      <div
+        id="site-menu"
+        class="collapse navbar-collapse pb-3 pb-xl-0"
+        [ngbCollapse]="menuCollapsed"
+      >
+        <ul class="navbar-nav ms-auto align-items-xl-center gap-xl-1">
           <li class="nav-item">
-            <a class="nav-link" href="/#inicio" (click)="closeMenu()">Início</a>
+            <a
+              class="nav-link fw-semibold"
+              href="/#inicio"
+              (click)="closeMenu()"
+              >Início</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/#sobre" (click)="closeMenu()">Sobre</a>
+            <a class="nav-link fw-semibold" href="/#sobre" (click)="closeMenu()"
+              >Sobre</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/#servicos" (click)="closeMenu()"
+            <a
+              class="nav-link fw-semibold"
+              href="/#servicos"
+              (click)="closeMenu()"
               >Serviços</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/#diferenciais" (click)="closeMenu()"
+            <a
+              class="nav-link fw-semibold"
+              href="/#diferenciais"
+              (click)="closeMenu()"
               >Diferenciais</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/#contato" (click)="closeMenu()"
+            <a
+              class="nav-link fw-semibold"
+              href="/#contato"
+              (click)="closeMenu()"
               >Contato</a
             >
           </li>
           <li class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link fw-semibold"
               routerLink="/blog"
               routerLinkActive="active"
               ariaCurrentWhenActive="page"
@@ -61,7 +83,7 @@
           </li>
         </ul>
         <a
-          class="btn btn-primary ms-lg-3 mt-3 mt-lg-0"
+          class="btn btn-primary ms-xl-3 mt-3 mt-xl-0"
           routerLink="/login"
           (click)="closeMenu()"
         >

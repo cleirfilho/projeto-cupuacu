@@ -1,4 +1,4 @@
-<section id="diferenciais" class="site-section bg-white">
+<section id="diferenciais" class="site-section bg-body-tertiary">
   <div class="container">
     <div class="row align-items-end g-4 mb-5">
       <div class="col-lg-7">
@@ -15,11 +15,17 @@
     <div class="row g-4">
       @for (item of items; track item[1]) {
         <div class="col-sm-6 col-lg-4">
-          <article class="difference-card h-100">
-            <i class="bi {{ item[0] }}"></i>
+          <article
+            class="d-flex gap-3 h-100 p-3 p-sm-4 border rounded-4 bg-body"
+          >
+            <i
+              class="bi {{
+                item[0]
+              }} feature-icon d-inline-flex align-items-center justify-content-center flex-shrink-0 rounded-3 bg-primary-subtle text-primary-emphasis"
+            ></i>
             <div>
-              <h3>{{ item[1] }}</h3>
-              <p>{{ item[2] }}</p>
+              <h3 class="h6 fw-bold">{{ item[1] }}</h3>
+              <p class="text-body-secondary small mb-0">{{ item[2] }}</p>
             </div>
           </article>
         </div>

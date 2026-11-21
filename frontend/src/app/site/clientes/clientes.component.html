@@ -1,11 +1,19 @@
-<section class="site-section clients-section">
+<section class="site-section brand-surface text-body" data-bs-theme="dark">
   <div class="container text-center">
     <span class="section-kicker">Confiança construída</span>
     <h2 class="section-title mt-3">Empresas que Confiam em Nosso Trabalho</h2>
-    <div class="client-grid mt-5" aria-label="Logos de clientes demonstrativos">
+    <div
+      class="row row-cols-2 row-cols-sm-3 row-cols-lg-5 g-3 justify-content-center mt-4"
+      aria-label="Logos de clientes demonstrativos"
+    >
       @for (client of clients; track client) {
-        <div class="client-logo">
-          <i class="bi bi-buildings"></i><span>{{ client }}</span>
+        <div class="col">
+          <div
+            class="client-logo d-flex h-100 flex-column align-items-center justify-content-center gap-2 p-3 border rounded-4 bg-body-tertiary fw-bold"
+          >
+            <i class="bi bi-buildings fs-4 text-primary-emphasis"></i
+            ><span>{{ client }}</span>
+          </div>
         </div>
       }
     </div>

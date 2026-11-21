@@ -8,10 +8,17 @@ import {
 } from '@angular/router';
 import { AdminBlogService } from '../../pages/admin/blog/admin-blog.service';
 import { AuthService } from '../../core/auth/auth.service';
+import { ThemePickerComponent } from '../../core/theme/theme-picker.component';
 
 @Component({
   selector: 'app-admin-layout',
-  imports: [NgbCollapse, RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [
+    ThemePickerComponent,
+    NgbCollapse,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+  ],
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.css',
 })

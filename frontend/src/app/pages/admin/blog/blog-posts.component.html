@@ -110,7 +110,7 @@
         <caption class="visually-hidden">
           Publicações do blog
         </caption>
-        <thead class="table-light">
+        <thead class="table-group-divider">
           <tr>
             <th scope="col" class="ps-3">Publicação</th>
             <th scope="col">Categoria</th>
@@ -136,17 +136,19 @@
                       loading="lazy"
                     />
                   }
-                  <div class="text-break" style="min-width: 10rem">
+                  <div class="text-break">
                     <a [routerLink]="['../publicacoes', post.id]">{{
                       post.title
                     }}</a>
                     @if (post.isFeatured) {
-                      <span class="badge text-bg-light d-block text-start"
+                      <span
+                        class="badge bg-body-secondary text-body d-block text-start"
                         >Destaque</span
                       >
                     }
                     @if (post.isPinned) {
-                      <span class="badge text-bg-light d-block text-start"
+                      <span
+                        class="badge bg-body-secondary text-body d-block text-start"
                         >Fixada</span
                       >
                     }
@@ -156,7 +158,7 @@
               <td>{{ post.category.name }}</td>
               <td>{{ post.author }}</td>
               <td>
-                <span class="badge text-bg-light border">{{
+                <span class="badge bg-body-secondary text-body border">{{
                   statuses[post.status]
                 }}</span>
               </td>
@@ -168,10 +170,7 @@
               </td>
               <td class="text-end">{{ post.viewsCount }}</td>
               <td class="pe-3">
-                <div
-                  class="d-flex flex-wrap gap-1 justify-content-end"
-                  style="min-width: 11rem"
-                >
+                <div class="d-flex flex-wrap gap-1 justify-content-end">
                   <a
                     class="btn btn-sm btn-outline-primary"
                     [routerLink]="['../publicacoes', post.id]"
@@ -233,30 +232,39 @@
       </table>
     </div>
     <div
-      class="card-footer bg-white d-flex flex-wrap gap-2 align-items-center justify-content-between"
+      class="card-footer bg-body-tertiary d-flex flex-wrap gap-2 align-items-center justify-content-between"
     >
       <span>{{ page.total }} publicações</span>
-      <nav
-        class="d-flex align-items-center gap-2"
-        aria-label="Paginação administrativa"
-      >
-        <button
-          class="btn btn-sm btn-outline-primary"
-          type="button"
-          [disabled]="loading() || page.page === 1"
-          (click)="load(page.page - 1)"
-        >
-          Anterior
-        </button>
-        <span>Página {{ page.page }}</span>
-        <button
-          class="btn btn-sm btn-outline-primary"
-          type="button"
-          [disabled]="loading() || page.page * page.pageSize >= page.total"
-          (click)="load(page.page + 1)"
-        >
-          Próxima
-        </button>
+      @let previousDisabled = loading() || page.page === 1;
+      @let nextDisabled = loading() || page.page * page.pageSize >= page.total;
+      <nav aria-label="Paginação administrativa">
+        <ul class="pagination pagination-sm mb-0">
+          <li class="page-item">
+            <button
+              class="page-link"
+              type="button"
+              [disabled]="previousDisabled"
+              [class.disabled]="previousDisabled"
+              (click)="load(page.page - 1)"
+            >
+              Anterior
+            </button>
+          </li>
+          <li class="page-item active" aria-current="page">
+            <span class="page-link">Página {{ page.page }}</span>
+          </li>
+          <li class="page-item">
+            <button
+              class="page-link"
+              type="button"
+              [disabled]="nextDisabled"
+              [class.disabled]="nextDisabled"
+              (click)="load(page.page + 1)"
+            >
+              Próxima
+            </button>
+          </li>
+        </ul>
       </nav>
     </div>
   }

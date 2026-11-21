@@ -9,7 +9,6 @@ import { ContatoService } from './contato.service';
   selector: 'app-contato',
   imports: [ReactiveFormsModule],
   templateUrl: './contato.component.html',
-  styleUrl: './contato.component.css',
 })
 export class ContatoComponent {
   private readonly formBuilder = inject(FormBuilder);
