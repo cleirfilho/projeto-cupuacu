@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="/assets/blog/quill.snow.css" />
+<div class="blog-editor bg-white">
+  @if (failed()) {
+    <p class="alert alert-danger" role="alert">
+      Não foi possível abrir o editor. Recarregue a página para alterar o
+      conteúdo.
+    </p>
+  } @else if (!ready()) {
+    <p class="text-body-secondary" role="status">Carregando editor…</p>
+  }
+  <div #toolbar [hidden]="!ready()">
+    <span class="ql-formats">
+      <select class="ql-header" aria-label="Nível do título">
+        <option selected>Parágrafo</option>
+        <option value="2">Título H2</option>
+        <option value="3">Título H3</option>
+        <option value="4">Título H4</option>
+      </select>
+    </span>
+    <span class="ql-formats">
+      <button type="button" class="ql-bold" aria-label="Negrito"></button>
+      <button type="button" class="ql-italic" aria-label="Itálico"></button>
+      <button
+        type="button"
+        class="ql-underline"
+        aria-label="Sublinhado"
+      ></button>
+      <button
+        type="button"
+        class="ql-list"
+        value="ordered"
+        aria-label="Lista numerada"
+      ></button>
+      <button
+        type="button"
+        class="ql-list"
+        value="bullet"
+        aria-label="Lista com marcadores"
+      ></button>
+    </span>
+    <span class="ql-formats">
+      <select class="ql-align" aria-label="Alinhamento">
+        <option selected>Esquerda</option>
+        <option value="center">Centralizado</option>
+        <option value="right">Direita</option>
+        <option value="justify">Justificado</option>
+      </select>
+      <button type="button" class="ql-link" aria-label="Inserir link"></button>
+      <button type="button" class="ql-blockquote" aria-label="Citação"></button>
+      <button
+        type="button"
+        class="ql-clean"
+        aria-label="Limpar formatação"
+      ></button>
+    </span>
+  </div>
+  <div #editor [hidden]="!ready()"></div>
+  @if (ready()) {
+    <div class="row g-2 mt-2">
+      <div class="col-md">
+        <label class="form-label" for="inline-image-alt"
+          >Descrição da imagem no texto</label
+        >
+        <input
+          #alt
+          id="inline-image-alt"
+          class="form-control"
+          maxlength="200"
+        />
+      </div>
+      <div class="col-md">
+        <label class="form-label" for="inline-image-file"
+          >Inserir imagem no texto</label
+        >
+        <input
+          id="inline-image-file"
+          class="form-control"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          (change)="upload($event, alt)"
+          [disabled]="uploading()"
+        />
+      </div>
+    </div>
+    @if (uploading()) {
+      <p class="small" role="status">Enviando imagem…</p>
+    }
+  }
+</div>

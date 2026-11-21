@@ -1,0 +1,127 @@
+@if (model(); as data) {
+  @if ('error' in data) {
+    <section class="container py-5">
+      <h1 class="section-title">Blog indisponível</h1>
+      <p>
+        Não foi possível carregar as publicações. Tente novamente em instantes.
+      </p>
+      <a class="btn btn-outline-primary" href="/blog">Recarregar</a>
+    </section>
+  } @else {
+    <header class="bg-white py-5 border-bottom">
+      <div class="container section-copy">
+        <nav aria-label="Localização">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Início</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Blog</li>
+          </ol>
+        </nav>
+        <h1 class="section-title">{{ data.heading.title }}</h1>
+        <p class="mb-0">{{ data.heading.description }}</p>
+      </div>
+    </header>
+    <div class="container py-5">
+      <form class="row g-3 align-items-end mb-4" (ngSubmit)="filter()">
+        <div class="col-md">
+          <label class="form-label" for="blog-search">Buscar publicações</label>
+          <input
+            class="form-control"
+            type="search"
+            id="blog-search"
+            name="search"
+            [(ngModel)]="search"
+            maxlength="120"
+          />
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="blog-category">Categoria</label>
+          <select
+            class="form-select"
+            id="blog-category"
+            name="category"
+            [(ngModel)]="category"
+          >
+            <option value="">Todas as categorias</option>
+            @for (term of data.categories; track term.id) {
+              <option [value]="term.slug">{{ term.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="col-md-auto">
+          <button class="btn btn-primary" type="submit">Buscar</button>
+        </div>
+      </form>
+      @if (data.filters.tag) {
+        <p>
+          <a
+            routerLink="/blog"
+            [queryParams]="{
+              search: data.filters.search,
+              category: data.filters.category,
+            }"
+            >Limpar filtro por tag</a
+          >
+        </p>
+      }
+      @if (pending()) {
+        <p role="status" class="text-body-secondary">Carregando publicações…</p>
+      }
+
+      <div class="row g-4" [attr.aria-busy]="pending()">
+        <div [class]="data.popular.length ? 'col-lg-9' : 'col-12'">
+          @for (post of data.featured; track post.id) {
+            <section class="mb-4" aria-labelledby="blog-featured">
+              <h2 id="blog-featured" class="section-kicker mb-3">
+                Em destaque
+              </h2>
+              <app-blog-card [post]="post" [featured]="true" />
+            </section>
+          }
+          <h2 class="h4 fw-bold mb-3">Publicações</h2>
+          <div class="row g-3">
+            @for (post of data.posts.items; track post.id) {
+              <div class="col-md-6 col-xl-4">
+                <app-blog-card [post]="post" />
+              </div>
+            } @empty {
+              <p class="text-body-secondary">Nenhuma publicação encontrada.</p>
+            }
+          </div>
+          @if (data.posts.total > data.posts.pageSize || data.posts.page > 1) {
+            <nav
+              class="d-flex flex-wrap align-items-center gap-3 mt-4"
+              aria-label="Paginação de publicações"
+            >
+              @if (data.posts.page > 1) {
+                <a
+                  class="btn btn-outline-primary"
+                  routerLink="/blog"
+                  queryParamsHandling="merge"
+                  [queryParams]="{
+                    page: data.posts.page === 2 ? null : data.posts.page - 1,
+                  }"
+                  >Anterior</a
+                >
+              }
+              <span>Página {{ data.posts.page }}</span>
+              @if (data.posts.page * data.posts.pageSize < data.posts.total) {
+                <a
+                  class="btn btn-outline-primary"
+                  routerLink="/blog"
+                  queryParamsHandling="merge"
+                  [queryParams]="{ page: data.posts.page + 1 }"
+                  >Próxima</a
+                >
+              }
+            </nav>
+          }
+        </div>
+        @if (data.popular.length) {
+          <div class="col-lg-3">
+            <app-blog-popular [posts]="data.popular" />
+          </div>
+        }
+      </div>
+    </div>
+  }
+}

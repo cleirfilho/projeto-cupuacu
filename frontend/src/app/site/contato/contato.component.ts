@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { finalize } from 'rxjs';
+import { WHATSAPP_NUMBER, WHATSAPP_URL } from '../../core/whatsapp';
 import { ContatoService } from './contato.service';
 
 @Component({
@@ -14,6 +15,8 @@ export class ContatoComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly contatoService = inject(ContatoService);
   private readonly toast = inject(HotToastService);
+  protected readonly whatsappNumber = WHATSAPP_NUMBER;
+  protected readonly whatsappUrl = WHATSAPP_URL;
   protected submitted = false;
   protected readonly sending = signal(false);
   protected readonly form = this.formBuilder.nonNullable.group({

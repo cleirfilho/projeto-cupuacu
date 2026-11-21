@@ -1,0 +1,263 @@
+<section class="card border-0 shadow-sm overflow-hidden">
+  <div class="card-body p-3 p-md-4">
+    <h3 class="h5 mb-3">Publicações</h3>
+    <form class="row g-3 align-items-end" (ngSubmit)="applyFilters()">
+      <div class="col-sm-6 col-xl-3">
+        <label class="form-label" for="post-search">Título</label>
+        <input
+          id="post-search"
+          class="form-control"
+          name="title"
+          type="search"
+          maxlength="120"
+          [(ngModel)]="filters.search"
+        />
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <label class="form-label" for="post-category">Categoria</label>
+        <select
+          id="post-category"
+          name="category"
+          class="form-select"
+          [(ngModel)]="filters.category"
+        >
+          <option value="">Todas</option>
+          @for (category of categories; track category.id) {
+            <option [value]="category.slug">{{ category.name }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <label class="form-label" for="post-status">Status</label>
+        <select
+          id="post-status"
+          class="form-select"
+          name="status"
+          [(ngModel)]="filters.status"
+        >
+          <option value="">Todos</option>
+          @for (status of statusOptions; track status[0]) {
+            <option [value]="status[0]">{{ status[1] }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <label class="form-label" for="post-author">Autor</label>
+        <select
+          id="post-author"
+          class="form-select"
+          name="author"
+          [(ngModel)]="filters.authorId"
+        >
+          <option value="">Todos</option>
+          @for (author of authors; track author.id) {
+            <option [ngValue]="author.id">{{ author.name }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <label class="form-label" for="date-from">Publicação a partir de</label>
+        <input
+          id="date-from"
+          type="date"
+          class="form-control"
+          name="from"
+          [(ngModel)]="filters.from"
+        />
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <label class="form-label" for="date-to">Publicação até</label>
+        <input
+          id="date-to"
+          type="date"
+          class="form-control"
+          name="to"
+          [(ngModel)]="filters.to"
+        />
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <label class="form-label" for="post-sort">Ordenar por</label>
+        <select
+          id="post-sort"
+          class="form-select"
+          name="sort"
+          [(ngModel)]="filters.sort"
+        >
+          <option value="recent">Atualizadas recentemente</option>
+          <option value="oldest">Atualizadas há mais tempo</option>
+          <option value="title">Título</option>
+          <option value="popular">Mais visualizadas</option>
+        </select>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <button class="btn btn-primary" type="submit">Aplicar filtros</button>
+      </div>
+    </form>
+  </div>
+
+  @if (error()) {
+    <p class="alert alert-danger mx-3" role="alert">{{ error() }}</p>
+  }
+  @if (loading()) {
+    <p class="text-body-secondary mx-3" role="status">
+      Carregando publicações…
+    </p>
+  }
+
+  @if (result(); as page) {
+    <div class="table-responsive" [attr.aria-busy]="loading()">
+      <table class="table table-hover table-sm align-middle mb-0">
+        <caption class="visually-hidden">
+          Publicações do blog
+        </caption>
+        <thead class="table-light">
+          <tr>
+            <th scope="col" class="ps-3">Publicação</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Autor</th>
+            <th scope="col">Status</th>
+            <th scope="col">Publicação</th>
+            <th scope="col" class="text-end">Acessos</th>
+            <th scope="col" class="text-end pe-3">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (post of page.items; track post.id) {
+            <tr>
+              <th scope="row" class="ps-3">
+                <div class="d-flex align-items-center gap-2">
+                  @if (post.featuredImage) {
+                    <img
+                      class="rounded object-fit-cover"
+                      [src]="post.featuredImage + '?variant=thumb'"
+                      alt=""
+                      width="48"
+                      height="40"
+                      loading="lazy"
+                    />
+                  }
+                  <div class="text-break" style="min-width: 10rem">
+                    <a [routerLink]="['../publicacoes', post.id]">{{
+                      post.title
+                    }}</a>
+                    @if (post.isFeatured) {
+                      <span class="badge text-bg-light d-block text-start"
+                        >Destaque</span
+                      >
+                    }
+                    @if (post.isPinned) {
+                      <span class="badge text-bg-light d-block text-start"
+                        >Fixada</span
+                      >
+                    }
+                  </div>
+                </div>
+              </th>
+              <td>{{ post.category.name }}</td>
+              <td>{{ post.author }}</td>
+              <td>
+                <span class="badge text-bg-light border">{{
+                  statuses[post.status]
+                }}</span>
+              </td>
+              <td>
+                {{
+                  (post.publishedAt || post.scheduledAt
+                    | date: 'dd/MM/yyyy HH:mm') || '—'
+                }}
+              </td>
+              <td class="text-end">{{ post.viewsCount }}</td>
+              <td class="pe-3">
+                <div
+                  class="d-flex flex-wrap gap-1 justify-content-end"
+                  style="min-width: 11rem"
+                >
+                  <a
+                    class="btn btn-sm btn-outline-primary"
+                    [routerLink]="['../publicacoes', post.id]"
+                    >Editar</a
+                  >
+                  <a
+                    class="btn btn-sm btn-outline-primary"
+                    [routerLink]="['../publicacoes', post.id]"
+                    [queryParams]="{ preview: 1 }"
+                    >Prévia</a
+                  >
+                  @if (post.status !== 'PUBLICADO') {
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-primary"
+                      [disabled]="busy()"
+                      (click)="action(post, 'publish')"
+                    >
+                      Publicar
+                    </button>
+                  }
+                  @if (post.status !== 'ARQUIVADO') {
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-secondary"
+                      [disabled]="busy()"
+                      (click)="action(post, 'archive')"
+                    >
+                      Arquivar
+                    </button>
+                  }
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-secondary"
+                    [disabled]="busy()"
+                    (click)="action(post, 'duplicate')"
+                  >
+                    Duplicar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-danger"
+                    [disabled]="busy()"
+                    (click)="action(post, 'delete')"
+                  >
+                    Excluir
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7" class="text-center py-4 text-body-secondary">
+                Nenhuma publicação encontrada.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="card-footer bg-white d-flex flex-wrap gap-2 align-items-center justify-content-between"
+    >
+      <span>{{ page.total }} publicações</span>
+      <nav
+        class="d-flex align-items-center gap-2"
+        aria-label="Paginação administrativa"
+      >
+        <button
+          class="btn btn-sm btn-outline-primary"
+          type="button"
+          [disabled]="loading() || page.page === 1"
+          (click)="load(page.page - 1)"
+        >
+          Anterior
+        </button>
+        <span>Página {{ page.page }}</span>
+        <button
+          class="btn btn-sm btn-outline-primary"
+          type="button"
+          [disabled]="loading() || page.page * page.pageSize >= page.total"
+          (click)="load(page.page + 1)"
+        >
+          Próxima
+        </button>
+      </nav>
+    </div>
+  }
+</section>

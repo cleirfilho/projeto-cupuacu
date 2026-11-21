@@ -90,3 +90,44 @@ SMTP. Use um remetente autorizado pelo provedor em `CONTACT_FROM` e a caixa que
 deve receber as mensagens em `CONTACT_TO`. A resposta ao e-mail vai para o
 endereço informado no formulário. Use a porta 465 para TLS direto ou a 587 para
 STARTTLS. Reinicie o backend após editar o `.env`.
+
+## Blog
+
+O menu **Blog** do painel abre `/admin/blog` para contas com papel `ADMIN`.
+Cadastre uma categoria, crie a publicação e escolha o status. O agendamento
+usa o horário local informado no painel e grava a data em UTC. Na home, a
+seção de novidades aparece quando há publicações públicas e o recurso está
+ativo nas configurações do blog.
+
+A migration TypeORM `CreateBlog1770000000000` roda automaticamente ao iniciar
+a API. Faça backup do SQLite e do diretório de mídias antes de atualizar um
+ambiente com dados. O diretório padrão é `<DATABASE_PATH>.blog-media`. Configure
+`BLOG_MEDIA_PATH` para usar outro volume persistente. JPG, PNG e WebP estáticos
+de até 5 MB são convertidos em WebP. O backend remove arquivos sem vínculo
+após sete dias.
+
+Em produção, configure `BLOG_SITE_URL` com a origem pública HTTPS e
+`BLOG_API_ORIGIN` com a origem interna do NestJS. Inicie o servidor Angular
+SSR depois do build para servir metadados, `/sitemap.xml` e o proxy de `/api`.
+Por exemplo, com as origens definidas no arquivo `.env`:
+
+```bash
+npm run start:prod
+# Em outro terminal
+PORT=4000 node --env-file-if-exists=.env dist/frontend/server/server.mjs
+```
+
+Configure uma senha própria para a conta administrativa e os segredos JWT
+antes de expor o painel. Use um `BLOG_VIEW_SECRET` aleatório para as chaves
+diárias de visualização e para as sessões curtas de prévia de imagens. Se o
+Nest estiver atrás de um proxy controlado, configure `BLOG_TRUST_PROXY_HOPS`
+com o número de saltos confiáveis. Com o proxy do Angular diretamente à frente
+do Nest, use `1`. O ranking registra no máximo uma visualização por
+publicação e combinação de IP e navegador no mesmo dia UTC, com um limite por
+IP. As chaves derivadas por HMAC expiram em 30 dias. O banco mantém os totais
+de cada publicação.
+
+A prévia do painel exige autenticação e não registra visualizações. A
+renderização social usa a imagem Open Graph, a capa ou a imagem institucional.
+Configure o domínio público no SSR para que redes sociais e buscadores possam
+acessar essas URLs.

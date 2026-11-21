@@ -11,6 +11,11 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'blog',
+    loadChildren: () =>
+      import('./site/blog/blog.routes').then((module) => module.blogRoutes),
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('./pages/login/login.component').then(
@@ -29,6 +34,13 @@ export const appRoutes: Route[] = [
         path: '',
         pathMatch: 'full',
         redirectTo: 'dashboard',
+      },
+      {
+        path: 'blog',
+        loadChildren: () =>
+          import('./pages/admin/blog/admin-blog.routes').then(
+            (module) => module.adminBlogRoutes,
+          ),
       },
       {
         path: 'dashboard',

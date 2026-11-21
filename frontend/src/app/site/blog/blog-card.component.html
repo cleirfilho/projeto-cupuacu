@@ -1,0 +1,53 @@
+<article
+  class="h-100"
+  [class.card]="!home()"
+  [class.border-0]="!home()"
+  [class.overflow-hidden]="!home()"
+  [class.shadow-sm]="!home()"
+  [class.home-card]="home()"
+  [class.featured-card]="featured()"
+>
+  @if (post().featuredImage) {
+    <a
+      class="cover"
+      [routerLink]="['/blog', post().slug]"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <img
+        [src]="post().featuredImage + (featured() ? '' : '?variant=thumb')"
+        [alt]="post().featuredImageAlt"
+        [attr.loading]="featured() ? 'eager' : 'lazy'"
+        decoding="async"
+      />
+    </a>
+  }
+  <div class="card-body" [class.p-4]="!home()">
+    <p class="small text-body-secondary mb-2">
+      <span class="section-kicker">{{ post().category.name }}</span>
+      @if (post().publishedAt; as date) {
+        <span class="mx-2" aria-hidden="true">·</span>
+        <time [attr.datetime]="date">{{
+          date | date: 'dd/MM/yyyy' : 'UTC'
+        }}</time>
+      }
+      @if (post().isPinned && !featured()) {
+        <i class="bi bi-pin-angle-fill ms-2" aria-label="Fixado"></i>
+      }
+    </p>
+    <h3 class="h5 fw-bold mb-2">
+      <a
+        class="text-dark text-decoration-none"
+        [routerLink]="['/blog', post().slug]"
+        >{{ post().title }}</a
+      >
+    </h3>
+    <p class="excerpt text-body-secondary mb-3">{{ post().excerpt }}</p>
+    <a
+      class="fw-semibold"
+      [routerLink]="['/blog', post().slug]"
+      [attr.aria-label]="'Leia mais sobre ' + post().title"
+      >Leia mais <i class="bi bi-arrow-right" aria-hidden="true"></i
+    ></a>
+  </div>
+</article>

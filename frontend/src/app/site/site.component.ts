@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { RouterLink } from '@angular/router';
+import { SiteHeaderComponent } from './header/header.component';
+import { BlogHomeComponent } from './blog/blog-home.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { ContatoComponent } from './contato/contato.component';
 import { DiferenciaisComponent } from './diferenciais/diferenciais.component';
@@ -12,8 +12,8 @@ import { SobreComponent } from './sobre/sobre.component';
 @Component({
   selector: 'app-site',
   imports: [
-    NgbCollapse,
-    RouterLink,
+    SiteHeaderComponent,
+    BlogHomeComponent,
     HeroComponent,
     SobreComponent,
     ServicosComponent,
@@ -23,12 +23,5 @@ import { SobreComponent } from './sobre/sobre.component';
     FooterComponent,
   ],
   templateUrl: './site.component.html',
-  styleUrl: './site.component.css',
 })
-export class SiteComponent {
-  protected menuCollapsed = true;
-
-  protected closeMenu(): void {
-    this.menuCollapsed = true;
-  }
-}
+export class SiteComponent {}

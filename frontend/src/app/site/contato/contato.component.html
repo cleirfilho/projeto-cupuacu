@@ -23,8 +23,13 @@
             ><span><strong>Telefone</strong>(91) 3200-2026</span>
           </div>
           <div>
-            <i class="bi bi-whatsapp"></i
-            ><span><strong>WhatsApp</strong>(91) 99999-2026</span>
+            <i class="bi bi-whatsapp" aria-hidden="true"></i>
+            <span>
+              <strong>WhatsApp</strong>
+              <a [href]="whatsappUrl" target="_blank" rel="noopener noreferrer">
+                {{ whatsappNumber }}
+              </a>
+            </span>
           </div>
           <div>
             <i class="bi bi-envelope"></i

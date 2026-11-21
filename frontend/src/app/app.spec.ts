@@ -10,6 +10,17 @@ describe('App', () => {
     }).compileComponents();
   });
 
+  it('should provide a WhatsApp chat link in the app shell', () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+
+    const link: HTMLAnchorElement = fixture.nativeElement.querySelector(
+      'a.whatsapp-button',
+    );
+    expect(link.href).toBe('https://wa.me/554884649576');
+    expect(link.target).toBe('_blank');
+  });
+
   it('should create the app', () => {
     const fixture = TestBed.createComponent(App);
     expect(fixture.componentInstance).toBeTruthy();

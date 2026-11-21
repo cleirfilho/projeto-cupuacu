@@ -1,0 +1,50 @@
+.cover {
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: var(--bs-light);
+  overflow: hidden;
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.card-body {
+  overflow-wrap: anywhere;
+}
+.excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .featured-card {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .featured-card .cover {
+    flex: 0 0 50%;
+    aspect-ratio: 2 / 1;
+  }
+  .featured-card .card-body {
+    align-self: center;
+  }
+  .featured-card h3 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+  }
+}
+
+.home-card .cover {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--bs-border-radius-lg);
+  margin-bottom: 1rem;
+}
+
+.home-card .card-body {
+  padding: 0;
+}
+
+.home-card h3 a:hover {
+  text-decoration: underline !important;
+}

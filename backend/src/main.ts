@@ -1,12 +1,23 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { json, type NextFunction, type Request, type Response } from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.setGlobalPrefix('api');
+  const parseBlogJson = json({ limit: '1mb' });
+  app.use(
+    '/api/admin/blog',
+    (req: Request, res: Response, next: NextFunction) =>
+      parseBlogJson(req, res, next),
+  );
+  const proxyHops = Number(process.env.BLOG_TRUST_PROXY_HOPS ?? 0);
+  if (Number.isSafeInteger(proxyHops) && proxyHops > 0)
+    app.set('trust proxy', proxyHops);
 
   app.enableCors({
     origin:

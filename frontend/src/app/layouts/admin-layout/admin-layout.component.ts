@@ -6,6 +6,7 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
+import { AdminBlogService } from '../../pages/admin/blog/admin-blog.service';
 import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
@@ -17,6 +18,7 @@ import { AuthService } from '../../core/auth/auth.service';
 export class AdminLayoutComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly blog = inject(AdminBlogService);
 
   protected menuCollapsed = true;
 
@@ -29,6 +31,7 @@ export class AdminLayoutComponent {
   }
 
   protected logout(): void {
+    this.blog.closeMediaSession().subscribe({ error: () => undefined });
     this.authService.logout();
     void this.router.navigate(['/login']);
   }

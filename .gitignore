@@ -18,3 +18,7 @@ npm-debug.log*
 .angular
 
 __screenshots__/
+
+# Imagens geradas pelo blog
+*.sqlite.blog-media/
+backend/blog-media/

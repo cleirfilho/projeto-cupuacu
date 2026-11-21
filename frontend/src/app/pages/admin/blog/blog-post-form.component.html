@@ -1,0 +1,429 @@
+@if (ready()) {
+  <form #postForm="ngForm" class="d-grid gap-4" (ngSubmit)="save()">
+    <section class="card border-0 shadow-sm p-3 p-md-4">
+      <div
+        class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3"
+      >
+        <h3 class="h5 mb-0">
+          {{ id ? 'Editar publicação' : 'Nova publicação' }}
+        </h3>
+        @if (published() && model.slug) {
+          <a
+            [routerLink]="['/blog', model.slug]"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-sm btn-outline-primary"
+            >Abrir no blog</a
+          >
+        }
+      </div>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label" for="editor-title">Título</label>
+          <input
+            id="editor-title"
+            name="title"
+            class="form-control"
+            [(ngModel)]="model.title"
+            required
+            maxlength="160"
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="editor-slug">Endereço amigável</label>
+          <input
+            id="editor-slug"
+            name="slug"
+            class="form-control"
+            [(ngModel)]="model.slug"
+            pattern="[a-z0-9]+(-[a-z0-9]+)*"
+            maxlength="150"
+            [placeholder]="suggestSlug(model.title) || 'Gerado automaticamente'"
+          />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="editor-category">Categoria</label>
+          <select
+            id="editor-category"
+            name="category"
+            class="form-select"
+            [(ngModel)]="model.categoryId"
+          >
+            <option [ngValue]="0" disabled>Selecione uma categoria</option>
+            @for (category of categories; track category.id) {
+              <option [ngValue]="category.id">
+                {{ category.name }}{{ category.active ? '' : ' (inativa)' }}
+              </option>
+            }
+          </select>
+          @if (!categories.length) {
+            <p class="small mt-2 mb-0">
+              <a routerLink="/admin/blog/categorias"
+                >Cadastre uma categoria primeiro</a
+              >.
+            </p>
+          }
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="editor-excerpt">Resumo</label>
+          <textarea
+            id="editor-excerpt"
+            name="excerpt"
+            class="form-control"
+            maxlength="400"
+            rows="3"
+            [(ngModel)]="model.excerpt"
+          ></textarea>
+        </div>
+        <div class="col-12">
+          <h4 class="h6">Conteúdo</h4>
+          <app-blog-editor
+            [initial]="initialContent"
+            (contentChange)="model.content = $event"
+            (busyChange)="inlineImageBusy.set($event)"
+          />
+        </div>
+        <div class="col-12">
+          <h4 class="h6">Tags</h4>
+          @if (selected().length) {
+            <ul class="list-unstyled d-flex flex-wrap gap-2">
+              @for (tag of selected(); track tag.id) {
+                <li>
+                  <button
+                    class="btn btn-sm btn-outline-primary"
+                    type="button"
+                    (click)="toggleTag(tag)"
+                    [attr.aria-label]="'Remover tag ' + tag.name"
+                  >
+                    {{ tag.name }} <span aria-hidden="true">×</span>
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+          <div class="d-flex flex-wrap gap-2 mb-2">
+            <label class="visually-hidden" for="editor-tag-search"
+              >Buscar tags</label
+            >
+            <input
+              id="editor-tag-search"
+              name="tagSearch"
+              type="search"
+              class="form-control w-auto flex-fill"
+              maxlength="80"
+              placeholder="Buscar tags"
+              [(ngModel)]="tagSearch"
+              (keydown.enter)="$event.preventDefault(); filterTags()"
+            />
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              [disabled]="tagsBusy()"
+              (click)="filterTags()"
+            >
+              Buscar
+            </button>
+          </div>
+          @if (tagsBusy()) {
+            <p class="small" role="status">Carregando tags…</p>
+          }
+          @if (tags(); as available) {
+            <div class="d-flex flex-wrap gap-2">
+              @for (tag of available.items; track tag.id) {
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-secondary"
+                  [attr.aria-pressed]="hasTag(tag)"
+                  (click)="toggleTag(tag)"
+                >
+                  {{ tag.name }}
+                </button>
+              } @empty {
+                <p class="small text-body-secondary mb-0">
+                  Nenhuma tag encontrada.
+                </p>
+              }
+            </div>
+            @if (available.page > 1 || available.total > available.pageSize) {
+              <div class="d-flex flex-wrap gap-2 align-items-center mt-2">
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  type="button"
+                  [disabled]="tagsBusy() || available.page === 1"
+                  (click)="loadTags(available.page - 1)"
+                >
+                  Tags anteriores
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  type="button"
+                  [disabled]="
+                    tagsBusy() ||
+                    available.page * available.pageSize >= available.total
+                  "
+                  (click)="loadTags(available.page + 1)"
+                >
+                  Próximas tags
+                </button>
+              </div>
+            }
+          }
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="editor-cover">Imagem principal</label>
+          <input
+            id="editor-cover"
+            class="form-control"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            (change)="upload($event, 'featuredImage')"
+            [disabled]="imageBusy()"
+          />
+          @if (model.featuredImage) {
+            <img
+              class="media-preview rounded mt-2"
+              [src]="model.featuredImage"
+              [alt]="model.featuredImageAlt"
+            />
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-secondary mt-2 d-block"
+              (click)="model.featuredImage = ''"
+            >
+              Remover imagem
+            </button>
+          }
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="editor-cover-alt"
+            >Texto alternativo da imagem principal</label
+          >
+          <input
+            id="editor-cover-alt"
+            name="coverAlt"
+            class="form-control"
+            maxlength="200"
+            [required]="!!model.featuredImage"
+            [(ngModel)]="model.featuredImageAlt"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm p-3 p-md-4">
+      <h3 class="h5 mb-3">Publicação</h3>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="editor-status">Status</label>
+          <select
+            id="editor-status"
+            name="status"
+            class="form-select"
+            [(ngModel)]="model.status"
+          >
+            @for (status of statuses; track status[0]) {
+              <option [value]="status[0]">{{ status[1] }}</option>
+            }
+          </select>
+        </div>
+        @if (model.status === 'AGENDADO') {
+          <div class="col-md-6">
+            <label class="form-label" for="editor-schedule"
+              >Data e horário local</label
+            >
+            <input
+              id="editor-schedule"
+              name="schedule"
+              type="datetime-local"
+              class="form-control"
+              required
+              [(ngModel)]="schedule"
+            />
+          </div>
+        }
+        <div class="col-12">
+          <div class="form-check">
+            <input
+              id="editor-featured"
+              name="featured"
+              type="checkbox"
+              class="form-check-input"
+              [(ngModel)]="model.isFeatured"
+            />
+            <label class="form-check-label" for="editor-featured"
+              >Priorizar nos destaques</label
+            >
+          </div>
+          <div class="form-check">
+            <input
+              id="editor-pinned"
+              name="pinned"
+              type="checkbox"
+              class="form-check-input"
+              [(ngModel)]="model.isPinned"
+            />
+            <label class="form-check-label" for="editor-pinned"
+              >Fixar no início da listagem</label
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm p-3 p-md-4">
+      <h3 class="h5 mb-3">SEO e compartilhamento</h3>
+      <div class="row g-3">
+        <div class="col-12">
+          <label for="editor-meta-title" class="form-label">Título SEO</label>
+          <input
+            id="editor-meta-title"
+            name="metaTitle"
+            class="form-control"
+            maxlength="70"
+            [(ngModel)]="model.metaTitle"
+          />
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="editor-meta-description"
+            >Descrição SEO</label
+          >
+          <textarea
+            id="editor-meta-description"
+            name="metaDescription"
+            class="form-control"
+            rows="2"
+            maxlength="180"
+            [(ngModel)]="model.metaDescription"
+          ></textarea>
+        </div>
+        <div class="col-md-6">
+          <label for="editor-og" class="form-label"
+            >Imagem para compartilhamento</label
+          >
+          <input
+            id="editor-og"
+            class="form-control"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            (change)="upload($event, 'ogImage')"
+            [disabled]="imageBusy()"
+          />
+          @if (model.ogImage) {
+            <img
+              class="media-preview rounded mt-2"
+              [src]="model.ogImage"
+              alt="Imagem para compartilhamento"
+            />
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-secondary d-block mt-2"
+              (click)="model.ogImage = ''"
+            >
+              Remover imagem social
+            </button>
+          }
+        </div>
+        <div class="col-12">
+          <div class="form-check">
+            <input
+              id="editor-index"
+              name="index"
+              type="checkbox"
+              class="form-check-input"
+              [(ngModel)]="model.allowIndexing"
+            />
+            <label for="editor-index" class="form-check-label"
+              >Permitir indexação por buscadores</label
+            >
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="bg-light rounded p-3 text-break">
+            <h4 class="h6">Prévia no buscador</h4>
+            <p class="small text-body-secondary mb-1">
+              {{ origin }}/blog/{{ model.slug || suggestSlug(model.title) }}
+            </p>
+            <p class="text-primary fw-semibold mb-1">
+              {{ model.metaTitle || model.title || 'Título da publicação' }} |
+              Kupuassu
+            </p>
+            <p class="small mb-0">
+              {{ model.metaDescription || model.excerpt }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    @if (imageBusy()) {
+      <p class="text-body-secondary" role="status">Enviando imagem…</p>
+    }
+    <div class="d-flex flex-wrap gap-2">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="
+          postForm.invalid ||
+          !model.categoryId ||
+          busy() ||
+          imageBusy() ||
+          inlineImageBusy()
+        "
+      >
+        {{ busy() ? 'Salvando…' : 'Salvar publicação' }}
+      </button>
+      <button
+        class="btn btn-outline-primary"
+        type="button"
+        (click)="showPreview()"
+        [disabled]="previewBusy() || inlineImageBusy()"
+      >
+        {{ previewBusy() ? 'Gerando prévia…' : 'Pré-visualizar' }}
+      </button>
+      <a class="btn btn-outline-secondary" routerLink="/admin/blog/publicacoes"
+        >Voltar à listagem</a
+      >
+    </div>
+  </form>
+  @if (preview() !== null) {
+    <section
+      class="card border-0 shadow-sm p-3 p-md-4 mt-4"
+      id="blog-preview"
+      tabindex="-1"
+      aria-labelledby="portal-preview-heading"
+    >
+      <div
+        class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3"
+      >
+        <h3 class="h6 mb-0" id="portal-preview-heading">
+          Prévia da publicação
+        </h3>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          (click)="preview.set(null)"
+        >
+          Fechar prévia
+        </button>
+      </div>
+      <article class="text-break">
+        <h4 class="section-title">
+          {{ model.title || 'Título da publicação' }}
+        </h4>
+        <p class="section-copy">{{ model.excerpt }}</p>
+        @if (model.featuredImage) {
+          <img
+            class="img-fluid rounded mb-3"
+            [src]="model.featuredImage"
+            [alt]="model.featuredImageAlt"
+          />
+        }
+        <div class="blog-prose" [innerHTML]="preview()"></div>
+      </article>
+    </section>
+  }
+} @else if (error()) {
+  <p class="alert alert-danger" role="alert">{{ error() }}</p>
+} @else {
+  <p role="status">Carregando publicação…</p>
+}

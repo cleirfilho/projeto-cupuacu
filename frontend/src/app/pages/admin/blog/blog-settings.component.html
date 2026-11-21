@@ -1,0 +1,104 @@
+<section class="card border-0 shadow-sm p-3 p-md-4">
+  <h3 class="h5 mb-3">Configurações do blog</h3>
+  @if (settings(); as model) {
+    <form #settingsForm="ngForm" class="row g-3" (ngSubmit)="save(model)">
+      <div class="col-12">
+        <label for="blog-title" class="form-label">Título da página</label>
+        <input
+          id="blog-title"
+          name="title"
+          class="form-control"
+          [(ngModel)]="model.title"
+          required
+          maxlength="100"
+        />
+      </div>
+      <div class="col-12">
+        <label for="blog-description" class="form-label"
+          >Descrição da página</label
+        >
+        <textarea
+          id="blog-description"
+          name="description"
+          class="form-control"
+          [(ngModel)]="model.description"
+          required
+          maxlength="180"
+          rows="2"
+        ></textarea>
+      </div>
+      <div class="col-md-4">
+        <label for="blog-page-size" class="form-label"
+          >Publicações por página</label
+        >
+        <input
+          id="blog-page-size"
+          name="pageSize"
+          class="form-control"
+          type="number"
+          min="1"
+          max="24"
+          required
+          [(ngModel)]="model.pageSize"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="blog-home-count" class="form-label"
+          >Destaques na página inicial</label
+        >
+        <input
+          id="blog-home-count"
+          name="homeCount"
+          class="form-control"
+          type="number"
+          min="1"
+          max="8"
+          required
+          [(ngModel)]="model.homeCount"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="blog-popular-count" class="form-label"
+          >Publicações mais acessadas</label
+        >
+        <input
+          id="blog-popular-count"
+          name="popularCount"
+          class="form-control"
+          type="number"
+          min="1"
+          max="10"
+          required
+          [(ngModel)]="model.popularCount"
+        />
+      </div>
+      <div class="col-12">
+        <div class="form-check">
+          <input
+            id="blog-home-enabled"
+            name="homeEnabled"
+            class="form-check-input"
+            type="checkbox"
+            [(ngModel)]="model.homeEnabled"
+          />
+          <label for="blog-home-enabled" class="form-check-label"
+            >Exibir novidades na página inicial</label
+          >
+        </div>
+      </div>
+      <div class="col-12">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="settingsForm.invalid || busy()"
+        >
+          Salvar configurações
+        </button>
+      </div>
+    </form>
+  } @else if (error()) {
+    <p class="alert alert-danger mb-0" role="alert">{{ error() }}</p>
+  } @else {
+    <p class="mb-0" role="status">Carregando configurações…</p>
+  }
+</section>

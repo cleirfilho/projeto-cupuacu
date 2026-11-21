@@ -1,0 +1,15 @@
+.blog-editor .ql-editor {
+  min-height: 17rem;
+  font-family: inherit;
+  font-size: 1rem;
+}
+.blog-editor .ql-editor img {
+  max-width: 100%;
+  height: auto;
+}
+.blog-editor .ql-toolbar.ql-snow {
+  border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
+}
+.blog-editor .ql-container {
+  border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
+}

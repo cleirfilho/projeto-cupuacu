@@ -1,0 +1,10 @@
+.article-body {
+  max-width: 56rem;
+  overflow-wrap: anywhere;
+}
+.article-cover {
+  display: block;
+  width: 100%;
+  max-height: 34rem;
+  object-fit: cover;
+}

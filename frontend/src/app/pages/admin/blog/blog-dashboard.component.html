@@ -1,0 +1,100 @@
+@if (data(); as dashboard) {
+  <div class="row row-cols-2 row-cols-md-3 row-cols-xxl-5 g-3 mb-4">
+    @for (
+      metric of [
+        { label: 'Publicações', value: dashboard.total },
+        { label: 'Publicadas', value: dashboard.statuses.PUBLICADO },
+        { label: 'Rascunhos', value: dashboard.statuses.RASCUNHO },
+        { label: 'Agendadas', value: dashboard.statuses.AGENDADO },
+        { label: 'Visualizações', value: dashboard.views },
+      ];
+      track metric.label
+    ) {
+      <div class="col">
+        <div class="card border-0 shadow-sm h-100 p-3">
+          <span class="text-body-secondary">{{ metric.label }}</span>
+          <strong class="fs-3">{{ metric.value ?? 0 }}</strong>
+        </div>
+      </div>
+    }
+  </div>
+  <section class="card border-0 shadow-sm p-3 p-md-4 mb-4">
+    <h3 class="h5">Visualizações nos últimos 30 dias</h3>
+    @if (dashboard.days.length) {
+      <div class="chart d-flex gap-1 border-bottom" aria-hidden="true">
+        @for (bar of chart(); track bar.day) {
+          <div
+            class="bar flex-fill rounded-top"
+            [style.height.%]="bar.percent"
+            [title]="bar.day + ': ' + bar.count"
+          ></div>
+        }
+      </div>
+      <div
+        class="d-flex justify-content-between text-body-secondary small mt-2"
+      >
+        <time [attr.datetime]="chart()[0].day">{{
+          chart()[0].day | date: 'dd/MM' : 'UTC'
+        }}</time>
+        <time [attr.datetime]="chart()[29].day">{{
+          chart()[29].day | date: 'dd/MM' : 'UTC'
+        }}</time>
+      </div>
+      <details class="mt-3">
+        <summary>Ver valores por dia</summary>
+        <ul class="small mt-2 mb-0">
+          @for (bar of chart(); track bar.day) {
+            <li>{{ bar.day | date: 'dd/MM' : 'UTC' }} — {{ bar.count }}</li>
+          }
+        </ul>
+      </details>
+    } @else {
+      <p class="text-body-secondary mb-0">
+        Ainda não há visualizações registradas neste período.
+      </p>
+    }
+  </section>
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <section class="card border-0 shadow-sm p-3 p-md-4">
+        <h3 class="h5">Publicações recentes</h3>
+        <ul class="list-group list-group-flush">
+          @for (post of dashboard.recent; track post.id) {
+            <li class="list-group-item px-0 text-break">
+              <a [routerLink]="['publicacoes', post.id]">{{ post.title }}</a>
+              <span class="d-block text-body-secondary small"
+                >{{ statuses[post.status] }} ·
+                {{ post.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span
+              >
+            </li>
+          } @empty {
+            <li class="list-group-item px-0">Nenhuma publicação cadastrada.</li>
+          }
+        </ul>
+      </section>
+    </div>
+    <div class="col-lg-6">
+      <section class="card border-0 shadow-sm p-3 p-md-4">
+        <h3 class="h5">Mais acessadas</h3>
+        <ol class="list-group list-group-flush">
+          @for (post of dashboard.popular; track post.id) {
+            <li class="list-group-item px-0 text-break">
+              <a [routerLink]="['publicacoes', post.id]">{{ post.title }}</a>
+              <span class="d-block text-body-secondary small"
+                >{{ post.viewsCount }} visualizações</span
+              >
+            </li>
+          } @empty {
+            <li class="list-group-item px-0">
+              Nenhuma publicação com visualizações.
+            </li>
+          }
+        </ol>
+      </section>
+    </div>
+  </div>
+} @else if (error()) {
+  <p class="alert alert-danger" role="alert">{{ error() }}</p>
+} @else {
+  <p role="status">Carregando estatísticas…</p>
+}

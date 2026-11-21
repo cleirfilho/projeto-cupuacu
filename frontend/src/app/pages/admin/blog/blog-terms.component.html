@@ -1,0 +1,197 @@
+<div class="row g-4">
+  <div class="col-xl-5">
+    <section class="card border-0 shadow-sm p-3 p-md-4">
+      <h3 class="h5">
+        {{ id ? 'Editar' : 'Cadastrar' }} {{ isCategory ? 'categoria' : 'tag' }}
+      </h3>
+      <form #termForm="ngForm" class="d-grid gap-3" (ngSubmit)="save()">
+        <div>
+          <label for="term-name" class="form-label">Nome</label>
+          <input
+            id="term-name"
+            name="name"
+            class="form-control"
+            required
+            maxlength="80"
+            [(ngModel)]="name"
+          />
+        </div>
+        <div>
+          <label for="term-slug" class="form-label">Endereço amigável</label>
+          <input
+            id="term-slug"
+            name="slug"
+            class="form-control"
+            pattern="[a-z0-9]+(-[a-z0-9]+)*"
+            maxlength="150"
+            [(ngModel)]="slug"
+            placeholder="Gerado a partir do nome"
+          />
+        </div>
+        @if (isCategory) {
+          <div>
+            <label for="term-description" class="form-label">Descrição</label>
+            <textarea
+              id="term-description"
+              name="description"
+              class="form-control"
+              maxlength="400"
+              rows="3"
+              [(ngModel)]="description"
+            ></textarea>
+          </div>
+          <div>
+            <label for="term-order" class="form-label">Ordem de exibição</label>
+            <input
+              id="term-order"
+              name="order"
+              type="number"
+              class="form-control"
+              required
+              min="0"
+              max="10000"
+              step="1"
+              [(ngModel)]="order"
+            />
+          </div>
+          <div class="form-check">
+            <input
+              id="term-active"
+              name="active"
+              type="checkbox"
+              class="form-check-input"
+              [(ngModel)]="active"
+            />
+            <label class="form-check-label" for="term-active"
+              >Categoria ativa no blog público</label
+            >
+          </div>
+        }
+        <div class="d-flex flex-wrap gap-2">
+          <button
+            class="btn btn-primary"
+            [disabled]="termForm.invalid || saving()"
+            type="submit"
+          >
+            Salvar
+          </button>
+          @if (id) {
+            <button
+              class="btn btn-outline-secondary"
+              [disabled]="saving()"
+              type="button"
+              (click)="edit()"
+            >
+              Cancelar
+            </button>
+          }
+        </div>
+      </form>
+    </section>
+  </div>
+  <div class="col-xl-7">
+    <section class="card border-0 shadow-sm p-3 p-md-4">
+      <h3 class="h5 mb-3">{{ isCategory ? 'Categorias' : 'Tags' }}</h3>
+      @if (!isCategory) {
+        <form class="d-flex flex-wrap gap-2 mb-3" (ngSubmit)="filter()">
+          <label class="visually-hidden" for="term-search">Buscar tags</label>
+          <input
+            id="term-search"
+            name="search"
+            type="search"
+            class="form-control flex-fill w-auto"
+            maxlength="80"
+            placeholder="Buscar tags"
+            [(ngModel)]="search"
+          />
+          <button
+            class="btn btn-outline-primary"
+            type="submit"
+            [disabled]="loading()"
+          >
+            Buscar
+          </button>
+        </form>
+      }
+      @if (loading()) {
+        <p role="status">Carregando…</p>
+      }
+      @if (error()) {
+        <p class="alert alert-danger" role="alert">{{ error() }}</p>
+      }
+      <ul class="list-group list-group-flush">
+        @for (term of terms(); track term.id) {
+          <li
+            class="list-group-item px-0 d-flex flex-wrap justify-content-between align-items-center gap-2"
+          >
+            <div class="text-break">
+              <strong>{{ term.name }}</strong>
+              <span class="small text-body-secondary d-block">{{
+                term.slug
+              }}</span>
+              @if ('active' in term) {
+                <span class="small text-body-secondary"
+                  >{{ term.active ? 'Ativa' : 'Inativa' }} · Ordem
+                  {{ term.displayOrder }}</span
+                >
+                @if (term.description) {
+                  <p class="small mb-0">{{ term.description }}</p>
+                }
+              }
+            </div>
+            <div class="d-flex gap-2">
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+                [disabled]="saving()"
+                (click)="edit(term)"
+              >
+                Editar
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger"
+                [disabled]="saving()"
+                (click)="remove(term)"
+              >
+                Excluir
+              </button>
+            </div>
+          </li>
+        } @empty {
+          @if (!loading() && !error()) {
+            <li class="list-group-item px-0">Nenhum registro encontrado.</li>
+          }
+        }
+      </ul>
+      @if (page(); as result) {
+        @if (result.page > 1 || result.total > result.pageSize) {
+          <nav
+            class="d-flex flex-wrap align-items-center gap-2 mt-3"
+            aria-label="Paginação de tags"
+          >
+            <button
+              class="btn btn-sm btn-outline-primary"
+              type="button"
+              [disabled]="loading() || result.page === 1"
+              (click)="load(result.page - 1)"
+            >
+              Anterior
+            </button>
+            <span>Página {{ result.page }}</span>
+            <button
+              class="btn btn-sm btn-outline-primary"
+              type="button"
+              [disabled]="
+                loading() || result.page * result.pageSize >= result.total
+              "
+              (click)="load(result.page + 1)"
+            >
+              Próxima
+            </button>
+          </nav>
+        }
+      }
+    </section>
+  </div>
+</div>

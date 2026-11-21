@@ -1,0 +1,7 @@
+.chart {
+  height: 8rem;
+  align-items: end;
+}
+.bar {
+  background: var(--bs-primary);
+}

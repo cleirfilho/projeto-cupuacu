@@ -1,0 +1,147 @@
+@if (model(); as data) {
+  @if ('error' in data) {
+    <section class="container py-5">
+      <h1 class="section-title">
+        {{
+          data.error === 404
+            ? 'Publicação não encontrada'
+            : 'Publicação indisponível'
+        }}
+      </h1>
+      <p>
+        {{
+          data.error === 404
+            ? 'Esta publicação pode ter mudado de endereço ou saído do ar.'
+            : 'Tente novamente em instantes.'
+        }}
+      </p>
+      <a class="btn btn-outline-primary" routerLink="/blog">Voltar ao blog</a>
+    </section>
+  } @else {
+    <div class="container py-4 py-md-5">
+      <article
+        class="article-body mx-auto bg-white rounded-4 p-3 p-md-5 shadow-sm"
+      >
+        <nav aria-label="Localização" class="small">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Início</a></li>
+            <li class="breadcrumb-item"><a routerLink="/blog">Blog</a></li>
+            <li class="breadcrumb-item">
+              <a
+                routerLink="/blog"
+                [queryParams]="{ category: data.article.category.slug }"
+                >{{ data.article.category.name }}</a
+              >
+            </li>
+            <li class="breadcrumb-item active text-break" aria-current="page">
+              {{ data.article.title }}
+            </li>
+          </ol>
+        </nav>
+        <header>
+          <p class="section-kicker mb-2">{{ data.article.category.name }}</p>
+          <h1 class="section-title text-break">{{ data.article.title }}</h1>
+          <p class="section-copy mt-3 mb-2">{{ data.article.excerpt }}</p>
+          <p class="small text-body-secondary">
+            {{ data.article.author }}
+            <span class="mx-2" aria-hidden="true">·</span>
+            <time [attr.datetime]="data.article.publishedAt">{{
+              data.article.publishedAt | date: 'dd/MM/yyyy' : 'UTC'
+            }}</time>
+          </p>
+        </header>
+        @if (data.article.featuredImage) {
+          <img
+            class="article-cover rounded-3 my-3"
+            [src]="data.article.featuredImage"
+            [alt]="data.article.featuredImageAlt"
+            decoding="async"
+            fetchpriority="high"
+          />
+        }
+        <div class="blog-prose mt-4" [innerHTML]="data.article.content"></div>
+
+        @if (data.article.tags.length) {
+          <ul
+            class="list-unstyled d-flex flex-wrap gap-2 mt-4"
+            aria-label="Tags"
+          >
+            @for (tag of data.article.tags; track tag.id) {
+              <li>
+                <a
+                  class="badge text-bg-light border"
+                  routerLink="/blog"
+                  [queryParams]="{ tag: tag.slug }"
+                  >{{ tag.name }}</a
+                >
+              </li>
+            }
+          </ul>
+        }
+
+        <section class="border-top mt-4 pt-4" aria-labelledby="share-title">
+          <h2 id="share-title" class="h5 fw-bold">Compartilhar</h2>
+          <div class="d-flex flex-wrap gap-2">
+            @for (link of shareLinks(); track link.name) {
+              <a
+                class="btn btn-outline-primary btn-sm"
+                [href]="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i
+                  class="bi"
+                  [class]="'bi-' + link.icon"
+                  aria-hidden="true"
+                ></i>
+                {{ link.name }}
+              </a>
+            }
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              (click)="copy()"
+            >
+              Copiar link
+            </button>
+            @if (nativeShare()) {
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                (click)="share()"
+              >
+                Mais opções
+              </button>
+            }
+          </div>
+          <p class="small mb-0 mt-2" role="status">{{ shareMessage() }}</p>
+          @if (shareMessage().startsWith('Copie')) {
+            <input
+              class="form-control form-control-sm mt-2"
+              [value]="canonical()"
+              readonly
+              aria-label="Link da publicação"
+            />
+          }
+        </section>
+      </article>
+      @if (data.related.length) {
+        <section class="mt-5" aria-labelledby="related-title">
+          <h2 id="related-title" class="h4 fw-bold mb-3">
+            Publicações relacionadas
+          </h2>
+          <div class="row g-3">
+            @for (post of data.related; track post.id) {
+              <div class="col-md-6 col-lg-4">
+                <app-blog-card [post]="post" />
+              </div>
+            }
+          </div>
+        </section>
+      }
+      <a class="btn btn-outline-primary mt-4" routerLink="/blog"
+        >Voltar ao blog</a
+      >
+    </div>
+  }
+}
