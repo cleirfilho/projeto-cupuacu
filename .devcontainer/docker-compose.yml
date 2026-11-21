@@ -10,10 +10,112 @@ services:
       NODE_ENV: development
       PORT: 3000
       DATABASE_PATH: backend/database.sqlite
+      RTC_REGIME_REGULAR_URL: http://rtc-regime-regular:8080/api
+      RTC_SIMPLES_NACIONAL_URL: http://rtc-simples-nacional:8082/api
+      RTC_DANFSE_URL: http://rtc-danfse:8080
     ports:
       - '3000:3000'
       - '4200:4200'
     command: sleep infinity
+
+  rtc-regime-regular:
+    build:
+      context: services/rtc
+      dockerfile: java.Dockerfile
+      args:
+        SOURCE_URL: &regular-url https://github.com/ReceitaFederal/calculadora-rtc-regime-regular
+        SOURCE_VERSION: &regular-version '1.7.2'
+        SOURCE_SHA: &regular-sha 32df7196356e81f2df08e6023fc2b6dbc48036d3
+        MIGRATIONS_URL: *regular-url
+        MIGRATIONS_VERSION: *regular-version
+        MIGRATIONS_SHA: *regular-sha
+        JAR_NAME: api-regime-geral
+    user: '0:0'
+    entrypoint: ["/usr/local/bin/rtc-start", "rtc-regime-regular.sqlite"]
+    volumes:
+      - ../backend:/rtc-data
+    ports:
+      - '127.0.0.1:${RTC_REGIME_REGULAR_HOST_PORT:-8081}:8080'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'curl',
+          '-fsS',
+          '--max-time',
+          '4',
+          'http://127.0.0.1:9101/health',
+        ]
+      start_period: 45s
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    restart: unless-stopped
+
+  rtc-simples-nacional:
+    build:
+      context: services/rtc
+      dockerfile: java.Dockerfile
+      args:
+        SOURCE_URL: https://github.com/ReceitaFederal/calculadora-rtc-simples-nacional
+        SOURCE_VERSION: '1.0.2'
+        SOURCE_SHA: f90b6525e6d5823e784baecfc6fef0ad2f04b74f
+        MIGRATIONS_URL: https://github.com/ReceitaFederal/calculadora-rtc-regime-regular
+        MIGRATIONS_VERSION: '1.7.2'
+        MIGRATIONS_SHA: 32df7196356e81f2df08e6023fc2b6dbc48036d3
+        JAR_NAME: api-simples-nacional
+    user: '0:0'
+    entrypoint: ["/usr/local/bin/rtc-start", "rtc-simples-nacional.sqlite"]
+    volumes:
+      - ../backend:/rtc-data
+    ports:
+      - '127.0.0.1:8082:8082'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'curl',
+          '-fsS',
+          '--max-time',
+          '4',
+          'http://127.0.0.1:9103/health',
+        ]
+      start_period: 45s
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    restart: unless-stopped
+
+  rtc-danfse:
+    build:
+      context: services/rtc
+      dockerfile: danfse.Dockerfile
+      args:
+        SOURCE_URL: https://github.com/AcesfContadores/calculadora-rtc-gerador-danfse
+        SOURCE_VERSION: commit-8d79e6b
+        SOURCE_SHA: 8d79e6b2f7fad6375340afcb51c85ed370c64a14
+    environment:
+      SERVER_PORT: '8080'
+      LOG_LEVEL: info
+      OTEL_SDK_DISABLED: 'true'
+    ports:
+      - '127.0.0.1:8083:8080'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '-q',
+          '-O',
+          '/dev/null',
+          '-T',
+          '4',
+          'http://127.0.0.1:8080/health/ready',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    restart: unless-stopped
 
 volumes:
   node-modules:

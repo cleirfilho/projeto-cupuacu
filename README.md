@@ -75,6 +75,9 @@ Abra o projeto no VS Code e execute `Dev Containers: Reopen in Container`.
 O container instala as dependências, encaminha as portas 3000 e 4200 e mantém o
 UID/GID alinhado ao usuário do WSL.
 
+O ambiente também inicia as três APIs da Reforma Tributária. Consulte as portas,
+os testes e o procedimento de atualização no [guia das APIs RTC](docs/devcontainer-rtc.md).
+
 ## Programação agêntica
 
 Consulte o [guia de programação agêntica](docs/programacao-agentica.md) para usar as instruções compartilhadas, as skills do projeto e a integração com o GitHub.
